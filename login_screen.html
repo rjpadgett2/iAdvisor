@@ -16,17 +16,27 @@
     min-height: 100px;
     background: yellow;
 }
-#output{
-  height: 200px;
-  width: 500px;
-  background: gray;
-  margin-top: 10px;
-  cursor: pointer;
+.container2{
+    background: red;
+    min-height: 300px;
 }
+
 .center-div
 {
      margin: 0 auto;
      width: 100px;
+}
+.icon {
+    width: 100px;
+    position: relative;
+    opacity: 0.5;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+.icon:hover {
+    transform: scale(1.5, 1.5); /** default is 1, scale it to 1.5 */
+    opacity: 1;
 }
 
 </style>
@@ -42,52 +52,43 @@ function onSignIn(googleUser) {
 
   var auth2 = gapi.auth2.getAuthInstance();
 
-  if (auth2.isSignedIn.get()) {
-  var profile = auth2.currentUser.get().getBasicProfile();
-    $(".container").html(profile.getName() + " is logged in!!");
-    /*Navigates to this page when user logs in. May want to do some sort of "check"
-    To see who it is*/
-    window.location.href = "iAdvisor_home.html";
-  }
-}
-
-/*
-
 jQuery(document).ready(function($) {
-  $("#output").click(function(){
-
-    var auth2 = gapi.auth2.getAuthInstance();
-
-    // Check if a user is signed in...
-    // If so, output the name of the user to the yellow box.
     if (auth2.isSignedIn.get()) {
-      var profile = auth2.currentUser.get().getBasicProfile();
-      $(".container").html(profile.getName() + " is logged in.");
+    var profile = auth2.currentUser.get().getBasicProfile();
+      $(".container2").toggle();
+      $(".container2").html(
 
-    } else {
-      $(".container").html("Nobody is logged in...");
+        "<center><H1>Welcome Back " + profile.getName()
+        + "!</H1></center>" +
+        "<center><a class='icon' href='plan_builder.html'>" +
+        "<img width = '200' height = '200' src='plan.png' alt='plan'></a>" +
+        "<a class='icon' href='user_info_form.html'>" +
+        "<img width = '200' height='200' src='newuser.png' alt='New User'></a></center>"
+
+      );
+
+    //  window.location.href = "home_screen.php";
     }
   });
-});
-
-
-*/
+}
 </script>
+
 </head>
   <body>
     <!-- Sign-in button -->
     <center><H1>Welcome to iAdvisor<H1></center>
-      <div class="container" >
+      <div  class="container">
         <center><H3>Please Sign in with your University login information.</H3></center>
+
+        <div class="g-signin2 center-div" data-onsuccess="onSignIn"></div>
+
       </div>
 
-    <div class="g-signin2 center-div" data-onsuccess="onSignIn"></div>
-<!--
-    <div id="output">
 
+<div class="container2" style="display: none;">
+<center><H3>Welcome <script>document.write(profile.getName())</script> User.</H3></center>
 
-      Click here if you are logged in.
-    </div>
--->
+</div>
+
   </body>
 </html>
