@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html>
-<head>	
+<head>
 </head>
 <body>
 
 <?php
 
-$server = "localhost";
+$server = "127.0.0.1";
 $username = "root";
-$password = "root";
-$db = "4year";
-$port = "8889";
+$password = "nilemonitor354";
+$db = "iAdvisor";
+$port = "3306";
 
 $connection = mysqli_connect($server, $username, $password, $db, $port);
 
@@ -19,7 +19,7 @@ if (!$connection) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-$query = "SELECT 
+$query = "SELECT
     abbreviation, class_num, class_name, core
 FROM
     class c
@@ -36,7 +36,7 @@ if ($result->num_rows > 0) {
     while($row = mysqli_fetch_assoc($result)) {
 		array_push($classList, $row["abbreviation"] . (string)$row["class_num"] . ": " . $row["class_name"]);
     }
-	
+
 } else {
     echo "0 results";
 }

@@ -1,3 +1,8 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
 
 <?php
 $server = "127.0.0.1";
@@ -5,10 +10,8 @@ $username = "root";
 $password = "nilemonitor354";
 $db = "iAdvisor";
 $port = "3306";
-
 $year = $_POST['year'];
 $classesTaken = $_POST['classes'];
-
 $connection = mysqli_connect($server, $username, $password, $db, $port);
 // Check connection
 if (!$connection) {
@@ -67,13 +70,16 @@ for ($i=0; $i<sizeof($classesNeeded); $i++){
 	}
 
 }
-//echo "You are a: ".$year."<br><br>";
-//echo "You have taken:<br>";
+echo "You are a: ".$year."<br><br>";
+echo "You have taken:<br>";
 foreach ($classesTaken as $classes){
-	echo $classes;
+	echo $classes."<br>";
 }
-//echo "<br>You still need to take:<br>";
+echo "<br>You still need to take:<br>";
 foreach ($classesNeeded as $classes){
-	echo $classes;
+	echo $classes."<br>";
 }
 ?>
+
+</body>
+</html>
