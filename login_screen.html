@@ -17,7 +17,7 @@
     background: yellow;
 }
 .container2{
-    background: red;
+    background: white;
     min-height: 300px;
 }
 
@@ -58,7 +58,7 @@ jQuery(document).ready(function($) {
       $(".container2").toggle();
       $(".container2").html(
 
-        "<center><H1>Welcome Back " + profile.getName()
+        "<center><H1>Welcome " + profile.getName()
         + "!</H1></center>" +
         "<center><a class='icon' href='form_check.php'>" +
         "<img width = '200' height = '200' src='plan.png' alt='plan'></a>" +
@@ -66,8 +66,6 @@ jQuery(document).ready(function($) {
         "<img width = '200' height='200' src='newuser.png' alt='New User'></a></center>"
 
       );
-
-    //  window.location.href = "home_screen.php";
     }
   });
 }

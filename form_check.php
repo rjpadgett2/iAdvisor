@@ -73,7 +73,7 @@
 
 </head>
 <?php
-$server = "127.0.0.1";
+$server = "35.185.100.59";
 $username = "root";
 $password = "nilemonitor354";
 $db = "iAdvisor";
