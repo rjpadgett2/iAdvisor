@@ -1,7 +1,23 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Authorization</title>
+    <meta charset = "utf-8">
+    <meta name = "viewport" content="width=device-width, initial-scale = 1">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+    
+
+    <title>iAdvisor</title>
+
     <meta name="google-signin-scope" content="profile email">
 
     <!-- Google Client ID -->
@@ -12,9 +28,26 @@
     <script src="https://apis.google.com/js/platform.js" async defer></script>
 
 <style>
+
+.navbar{
+  background-color: #C7B299;
+}
+.nav-item::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: #000;
+    transition: width .3s;
+}
+
+.nav-item:hover::after {
+    width: 100%;
+    //transition: width .3s;
+}
+
 .container{
     min-height: 100px;
-    background: yellow;
 }
 .container2{
     background: white;
@@ -38,6 +71,17 @@
     transform: scale(1.5, 1.5); /** default is 1, scale it to 1.5 */
     opacity: 1;
 }
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+background-image: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
+font-family: "Open Sans", Arial, sans-serif;
+}
+
 
 </style>
 <script>
@@ -73,6 +117,32 @@ jQuery(document).ready(function($) {
 
 </head>
   <body>
+
+  <nav class="navbar navbar-expand-sm navbar-light sticky-top">
+    <a class="navbar-brand" href="#">
+      <img src="img/iAdvisorLogo.png" alt="Logo" style="width:150px;">
+    </a>
+   <!-- Toggler/collapsibe Button -->
+   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+     <span class="navbar-toggler-icon"></span>
+   </button>
+
+    <!-- Navbar links -->
+   <div class="collapse navbar-collapse " id="collapsibleNavbar">
+     <ul class="navbar-nav">
+       <li class="nav-item active">
+         <a class="nav-link" href="#">Home</a>
+       </li>
+       <li class="nav-item">
+         <a class="nav-link" href="#">Create</a>
+       </li>
+       <li class="nav-item">
+         <a class="nav-link" href="about.html">About</a>
+       </li> 
+     </ul>
+   </div> 
+  </nav>
+
     <!-- Sign-in button -->
     <center><H1>Welcome to iAdvisor<H1></center>
       <div  class="container">
