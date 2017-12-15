@@ -6,7 +6,7 @@
 
 <?php
 
-$server = "35.185.100.59 ";
+$server = "35.185.100.59";
 $username = "root";
 $password = "root";
 $db = "iadvisor";
