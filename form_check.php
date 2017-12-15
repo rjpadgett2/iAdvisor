@@ -75,9 +75,9 @@
 <?php
 $server = "35.185.100.59";
 $username = "root";
-$password = "nilemonitor354";
-$db = "iAdvisor";
-$port = "3306";
+$password = "root";
+$db = "iadvisor";
+//$port = "3306";
 
 $year = $_POST['year'];
 $classesTaken = $_POST['classes'];

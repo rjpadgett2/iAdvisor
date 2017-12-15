@@ -8,9 +8,9 @@
 
 $server = "35.185.100.59 ";
 $username = "root";
-$password = "nilemonitor354";
-$db = "iAdvisor";
-$port = "3306";
+$password = "root";
+$db = "iadvisor";
+//$port = "3306";
 
 $connection = mysqli_connect($server, $username, $password, $db, $port);
 
