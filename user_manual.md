@@ -2,8 +2,8 @@
 This document provides an overview of the files used in this tool as well as important variables and pieces of code.
 # Homepage Login:
 
--Step 1: Login through Google authentication
--Step 2: Website will recognize whether you've used the application in the past or are a new visitor
+Step 1: Login through Google authentication . 
+Step 2: Website will recognize whether you've used the application in the past or are a new visitor . 
 
 # Develop Plan:
 
