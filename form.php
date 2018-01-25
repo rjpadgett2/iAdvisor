@@ -6,11 +6,11 @@
 
 <?php
 
-$server = "35.227.17.10";
+$server = "127.0.0.1";
 $username = "root";
-$password = "root";
+$password = "nilemonitor354";
 $db = "iadvisor";
-//$port = "3306";
+$port = "3306";
 
 $connection = mysqli_connect($server, $username, $password, $db, $port);
 
