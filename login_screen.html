@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <link rel="stylesheet" href="login_style.css">
+
     <meta charset = "utf-8">
     <meta name = "viewport" content="width=device-width, initial-scale = 1">
     <!-- Latest compiled and minified CSS -->
@@ -14,7 +16,7 @@
 
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
-    
+
 
     <title>iAdvisor</title>
 
@@ -27,92 +29,36 @@
     <!-- Adding Gogole API Library -->
     <script src="https://apis.google.com/js/platform.js" async defer></script>
 
-<style>
-
-.navbar{
-  background-color: #C7B299;
-}
-.nav-item::after {
-    content: '';
-    display: block;
-    width: 0;
-    height: 2px;
-    background: #000;
-    transition: width .3s;
-}
-
-.nav-item:hover::after {
-    width: 100%;
-    //transition: width .3s;
-}
-
-.container{
-    min-height: 100px;
-}
-.container2{
-    background: white;
-    min-height: 300px;
-}
-
-.center-div
-{
-     margin: 0 auto;
-     width: 100px;
-}
-.icon {
-    width: 100px;
-    position: relative;
-    opacity: 0.5;
-    transition: 0.3s ease;
-    cursor: pointer;
-}
-
-.icon:hover {
-    transform: scale(1.5, 1.5); /** default is 1, scale it to 1.5 */
-    opacity: 1;
-}
-
-html, body {
-  height: 100%;
-  width: 100%;
-}
-
-body {
-background-image: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
-font-family: "Open Sans", Arial, sans-serif;
-}
-
-
-</style>
 <script>
-
 // Called when signed in
-function onSignIn(googleUser) {
-  var profile = googleUser.getBasicProfile();
-  console.log('ID: ' + profile.getId());
-  console.log('Name: ' + profile.getName());
-  console.log('Image URL: ' + profile.getImageUrl());
-  console.log('Email: ' + profile.getEmail());
+  function onSignIn(googleUser) {
+    var profile = googleUser.getBasicProfile();
+    console.log('ID: ' + profile.getId());
+    console.log('Name: ' + profile.getName());
+    console.log('Image URL: ' + profile.getImageUrl());
+    console.log('Email: ' + profile.getEmail());
 
-  var auth2 = gapi.auth2.getAuthInstance();
+    var user_name = profile.getName();
+      //
+      // jQuery(document).ready(function($) {
+      //     if (auth2.isSignedIn.get() == true) {
+      //         auth2.signIn();
+      //
+      //     }
+      //   });
+      // }
+      var x = document.getElementById("container2");
+      if (x.style.display === "none") {
+          x.style.display = "block";
+      } else {
+          x.style.display = "none";
+      }
 
-jQuery(document).ready(function($) {
-    if (auth2.isSignedIn.get()) {
-    var profile = auth2.currentUser.get().getBasicProfile();
-      $(".container2").toggle();
-      $(".container2").html(
+      // document.getElementById("container2").innerHTML =
+      // "<center>Welcome to iAdvisor " + user_name + "!</center>";
+  }
 
-        "<center><H1>Welcome " + profile.getName()
-        + "!</H1></center>" +
-        "<center><a class='icon' href='form_check.php'>" +
-        "<img width = '200' height = '200' src='plan.png' alt='plan'></a>" +
-        "<a class='icon' href='form.php'>" +
-        "<img width = '200' height='200' src='newuser.png' alt='New User'></a></center>"
 
-      );
-    }
-  });
-}
 </script>
 
 </head>
@@ -131,16 +77,16 @@ jQuery(document).ready(function($) {
    <div class="collapse navbar-collapse " id="collapsibleNavbar">
      <ul class="navbar-nav">
        <li class="nav-item active">
-         <a class="nav-link" href="#">Home</a>
+         <!--<a class="nav-link" href="#">Home</a>-->
        </li>
        <li class="nav-item">
-         <a class="nav-link" href="form.php">Create</a>
+         <!-- <a class="nav-link" href="form.php">Create</a> -->
        </li>
        <li class="nav-item">
          <a class="nav-link" href="about.html">About</a>
-       </li> 
+       </li>
      </ul>
-   </div> 
+   </div>
   </nav>
 
     <!-- Sign-in button -->
@@ -153,8 +99,15 @@ jQuery(document).ready(function($) {
       </div>
 
 
-<div class="container2" style="display: none;">
-<center><H3>Welcome <script>document.write(profile.getName())</script> User.</H3></center>
+<div id="container2" style="display: none;">
+
+  <center><p id = "intro_paragraph"><strong</P></center>
+
+  <center><a class='icon' href='agenda_maker.php'>
+  <img width = '200' height = '200' src='plan.png' alt='plan'></a>
+
+  <a class='icon' href='new_student_form.php'>
+  <img width = '200' height='200' src='new_user.png' alt='New User'></a></center>
 
 </div>
 
