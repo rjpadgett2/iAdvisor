@@ -1,0 +1,119 @@
+/*Basic Page CSS */
+.navbar{
+  background-color: #C7B299;
+}
+.nav-item::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: #000;
+    transition: width .3s;
+}
+
+.nav-item:hover::after {
+    width: 100%;
+    //transition: width .3s;
+}
+
+.container{
+    min-height: 100px;
+}
+.container2{
+    background: red;
+    min-height: 300px;
+}
+
+.center-div
+{
+     margin: 0 auto;
+     width: 100px;
+}
+.icon {
+    width: 100px;
+    position: relative;
+    opacity: 0.5;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+.icon:hover {
+    transform: scale(1.5, 1.5); /** default is 1, scale it to 1.5 */
+    opacity: 1;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+background-image: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
+font-family: "Open Sans", Arial, sans-serif;
+}
+
+
+
+/* Agenda CSS */
+#agenda_template {
+  width: 600px;
+  display: table-cell;
+
+}
+#student_agenda {
+  display: table-cell;
+}
+div:not(:last-child) {
+margin-right: 500px;
+overflow:auto;
+}
+#semester1 {
+  width: 600px;
+  display: table-cell;
+}
+#semester2 {
+  display: table-cell;
+}
+
+#sortable1, #sortable2 {
+ border: 1px solid #eee;
+ width: 300px;
+ min-height: 20px;
+ list-style-type: none;
+ margin: 0;
+ padding: 5px 0 0 0;
+ float: left;
+ margin-right: 10px;
+}
+#sortable1 li, #sortable2 li {
+ margin: 0 5px 5px 5px;
+ padding: 10px;
+ font-size: 1.2em;
+ width: 300px;
+}
+.draggable {
+  width: 100px;
+  height: 100px;
+  padding: 0.5em;
+  float: left;
+  margin: 10px 10px 10px 0;
+}
+#droppable {
+  width: 150px;
+  min-height: 150px;
+  padding: 0.5em;
+  /*float: left; */
+  margin: 10px;
+}
+#list li {
+  border: 1px solid blue;
+  list-style: none;
+}
+ul {
+  padding: 0;
+}
+#message {
+  margin-top: 185px;
+  width: 500px;
+
+}

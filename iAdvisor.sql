@@ -1,0 +1,1 @@
+DELETE FROM iAdvisor.Students_has_Course;
