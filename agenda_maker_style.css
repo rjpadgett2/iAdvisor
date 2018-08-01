@@ -52,29 +52,24 @@ background-image: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
 font-family: "Open Sans", Arial, sans-serif;
 }
 
-
-
-/* Agenda CSS */
+.student_semester {
+  display: table-cell;
+  width: 1000px;
+}
 #agenda_template {
-  width: 600px;
-  display: table-cell;
+  border-color: white;
+  border-width: medium;
+  width: 500px;
+}
+#infoBox {
+  width: 200px;
+  float:right;
+}
 
-}
-#student_agenda {
-  display: table-cell;
-}
 div:not(:last-child) {
 margin-right: 500px;
 overflow:auto;
 }
-#semester1 {
-  width: 600px;
-  display: table-cell;
-}
-#semester2 {
-  display: table-cell;
-}
-
 #sortable1, #sortable2 {
  border: 1px solid #eee;
  width: 300px;
