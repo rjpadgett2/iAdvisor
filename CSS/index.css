@@ -1,6 +1,12 @@
+.wrapper {
+  width: 350px;
+  padding: 20px;
+  margin: auto;
+  width: 50%;
+}
 
 .navbar{
-  background-color: #C7B299;
+  background-color: #101010;
 }
 .nav-item::after {
     content: '';
@@ -9,15 +15,11 @@
     height: 2px;
     background: #000;
     transition: width .3s;
-    letter-spacing: 10px;
 }
 
 .nav-item:hover::after {
     width: 100%;
-    transition: width .3s;
-}
-.nav-link {
-  font-size: 20px;
+    //transition: width .3s;
 }
 
 .container{
@@ -52,6 +54,6 @@ html, body {
 }
 
 body {
-background-image: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
+background-image: linear-gradient(to right, #FE2323 50%, #FBFBF7 100%);
 font-family: "Open Sans", Arial, sans-serif;
 }

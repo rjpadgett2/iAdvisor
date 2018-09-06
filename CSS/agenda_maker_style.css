@@ -1,0 +1,228 @@
+/* Info Div */
+#infoBox {
+  float:right;
+  width: 350px;
+  font-size: 15px;
+  background-color: #F6F5F5;
+}
+.affix {
+    top: 0;
+    width: 100%;
+    z-index: 9999 !important;
+}
+
+.affix + .container-fluid {
+    padding-top: 70px;
+}
+h4#infobox-title {
+  color: red;
+}
+
+
+/* Agenda Styling */
+div.year-one {
+    float:left;
+    width: 800px;
+    margin: 0 auto;
+    background-color: #FE2323;
+    border-width: medium;
+    border-color: black;
+    /* font-family:Sans-serif; */
+}
+
+div.year-two {
+  float:left;
+  width: 800px;
+  margin: 0 auto;
+  background-color: #FE2323;
+  border-width: medium;
+  border-color: black;
+}
+div.year-three {
+  float:left;
+  width: 800px;
+  margin: 0 auto;
+  background-color: #FE2323;
+  border-width: medium;
+  border-color: black;
+}
+div.year-four {
+  float:left;
+  width: 800px;
+  margin: 0 auto;
+  background-color: #FE2323;
+  border-width: medium;
+  border-color: black;
+}
+
+div.fall_semester {
+   float: left;
+   background-color: #FE7575;
+   width: 300px;
+}
+div.spring_semester {
+   float: right;
+   width: 300px;
+
+   background-color: #FE7575;
+
+}
+
+li.individual-classes {
+  background-color: #EAEAEA;
+}
+
+h1#title {
+  font-family: 'Bigelow Rules';
+}
+
+span.credits {
+  color: #0000FF;
+}
+/* Submit Button  */
+.button {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #f4511e;
+  border: none;
+  color: #FFFFFF;
+  font-size: 15px;
+  padding: 10px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.btn {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+  margin: 30px;
+  text-align: center;
+}
+
+.btn:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -10px;
+  transition: 0.5s;
+}
+
+.btn-group {
+  
+}
+
+.button:hover span {
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+
+/*Basic Page CSS */
+.navbar{
+  background-color: #101010;
+}
+.nav-item::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: #000;
+    transition: width .3s;
+}
+
+.nav-item:hover::after {
+    width: 100%;
+    //transition: width .3s;
+}
+
+.container{
+    min-height: 100px;
+}
+.container2{
+    background: red;
+    min-height: 300px;
+}
+
+.center-div
+{
+     margin: 0 auto;
+     width: 100px;
+}
+.icon {
+    width: 100px;
+    position: relative;
+    opacity: 0.5;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+.icon:hover {
+    transform: scale(1.5, 1.5); /** default is 1, scale it to 1.5 */
+    opacity: 1;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+background-image: linear-gradient(to right, #FBFBF7 70%, #FE2323 100%);
+font-family: "Open Sans", Arial, sans-serif;
+}
+
+div:not(:last-child) {
+  /* margin-right: 50px; */
+  overflow:auto;
+}
+
+/*List dynamics CSS */
+#sortable1, #sortable2 {
+ border: 1px solid #eee;
+ width: 500px;
+ min-height: 20px;
+ list-style-type: none;
+ margin: 0;
+ padding: 5px 0 0 0;
+ float: left;
+ margin-right: 10px;
+}
+#sortable1 li, #sortable2 li {
+ margin: 0 5px 5px 5px;
+ padding: 10px;
+ font-size: 1.2em;
+ width: 300px;
+}
+.draggable {
+  width: 100px;
+  height: 100px;
+  padding: 0.5em;
+  float: left;
+  margin: 10px 10px 10px 0;
+}
+#droppable {
+  width: 150px;
+  min-height: 150px;
+  padding: 0.5em;
+  float: left;
+  margin: 10px;
+}
+#list li {
+  border: 1px solid blue;
+  list-style: none;
+}
+ul {
+  padding: 0;
+}
+#message {
+  margin-top: 185px;
+  width: 500px;
+}

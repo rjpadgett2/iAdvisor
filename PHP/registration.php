@@ -1,6 +1,6 @@
 <?php
 // Include config file
-require_once 'config.php';
+require_once '../config.php';
 
 // Define variables and initialize with empty values
 $success_message = "Registration Succefully!";
@@ -98,7 +98,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
                 echo "<SCRIPT type='text/javascript'>
                       alert('$success_message');
-                      window.location.replace(\"index.php\");
+                      window.location.replace(\"../index.php\");
                       </SCRIPT>";
             } else{
                 echo "Something went wrong. Please try again later.";

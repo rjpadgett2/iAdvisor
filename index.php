@@ -50,7 +50,7 @@
                             save the email to the session */
                             session_start();
                             $_SESSION['email'] = $email;
-                            header("location: home.php");
+                            header("location: PHP/home.php");
                         } else{
                             // Display an error message if password is not valid
                             $password_err = 'The password you entered was not valid.';
@@ -75,7 +75,7 @@
 ?>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="../CSS/index.css?version=0.8">
 
     <meta charset = "utf-8">
     <meta name = "viewport" content="width=device-width, initial-scale = 1">
@@ -96,24 +96,6 @@
 
 
     <title>iAdvisor</title>
-
-<script>
-
-
-
-</script>
-
-<style>
-.wrapper {
-  width: 350px;
-  padding: 20px;
-  margin: auto;
-  width: 50%;
-}
-</style>
-
-
-
 
 </head>
   <body>
@@ -141,7 +123,7 @@
     <!-- Sign-in button -->
     <center><H1>Welcome to iAdvisor<H1></center>
       <div  class="container">
-          <center><img src = "iadvisor.png" height = "100"></center>
+          <center><img src = "img/iadvisor.png" height = "100"></center>
         <center><H3>Please Sign in with your University login information.</H3></center>
 
       </div>
@@ -163,10 +145,8 @@
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Login">
             </div>
-            <p>Don't have an account? <a href="registration.php">Sign up now</a>.</p>
+            <p>Don't have an account? <a href="PHP/registration.php">Sign up now</a>.</p>
         </form>
     </div>
-
-
   </body>
 </html>
