@@ -43,14 +43,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         mysqli_stmt_close($stmt);
     }
 
-    // Validate password
+    // Validate Last Name
     if(empty(trim($_POST['last_name']))){
         $last_name_err = "Please enter your Last Name.";
     } else{
         $last_name = trim($_POST['last_name']);
     }
 
-    // Validate password
+    // Validate First Name
     if(empty(trim($_POST['first_name']))){
         $first_name_err = "Please enter your First Name.";
     } else{

@@ -1,4 +1,5 @@
 <?php
+require_once '../config.php';
 
 // Initialize the session
 session_start();
@@ -10,8 +11,13 @@ if(!isset($_SESSION['email']) || empty($_SESSION['email'])){
 
 $currentUser = $_SESSION['email'];
 
-$current_user_data_query = "SELECT last_name, first_name FROM Studnets WHERE email = '$currentUser'";
+$current_user_data_query = "SELECT last_name, first_name FROM Students WHERE email = '$currentUser';";
 $current_user_data_query_results = mysqli_query($connection, $current_user_data_query);
+while($line = mysqli_fetch_assoc($current_user_data_query_results)){
+  $last_name = $line['last_name'];
+  $first_name = $line['first_name'];
+}
+
 ?>
 
 <html lang="en">
@@ -53,14 +59,14 @@ $current_user_data_query_results = mysqli_query($connection, $current_user_data_
       <!-- Navbar links -->
      <div class="collapse navbar-collapse " id="collapsibleNavbar">
        <ul class="nav navbar-nav navbar-right">
-        <li><a href=""><span class="glyphicon glyphicon-user"></span> <?php echo htmlspecialchars($_SESSION['email']); ?></a></li>
+        <li><a href=""><span class="glyphicon glyphicon-user"></span> <?php echo htmlspecialchars($currentUser); ?></a></li>
         <li><a href="logout.php"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
       </ul>
      </div>
     </nav>
 
     <div class="page-header">
-        <center><h1>Welcome to our site.</h1></center>
+        <center><h1>Welcome Back <?php echo htmlspecialchars($first_name); ?> <?php echo htmlspecialchars($last_name); ?></h1></center>
         <center><img src = "../img/iadvisor.png" height = "300"></center>
     </div>
     <div class="btn-group btn-group-justified" role="group" aria-label="...">

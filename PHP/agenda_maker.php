@@ -1,35 +1,5 @@
 <?php
-require_once '../config.php';
-//All Queries
-$currentUser = $_SESSION['email'];
-$total_classes = array();
-$class_prereqs = array();
-
-$result = mysql_query("SHOW email FROM Students_has_Course LIKE '$currentUser'");
-
-//Gets List of Prereqs and puts it into JSON
-$prereq_query = "SELECT course_class_id, pre_req_of FROM Prerequisite";
-
-//Checks if user email exists in Students_has_Course database
-$exists = (mysql_num_rows($result))?TRUE:FALSE;
-  if($exists) {
-    $all_classes_query = "SELECT class_id, class_num, class_name, credits FROM Course LEFT JOIN Students_has_Course
-    ON Course.class_id = Students_has_Course.Course_class_id WHERE Students_has_Course.Course_class_id  IS NULL";
-
-  }else {
-    $all_classes_query = "SELECT class_id, class_num, class_name, credits FROM Course";
-
-  }
-
-  $prereq_query_results = mysqli_query($connection, $prereq_query);
-  $all_classes_query_results = mysqli_query($connection, $all_classes_query);
-  while($line = mysqli_fetch_assoc($all_classes_query_results)){
-    $total_classes[] = $line;
-  }
-
-  while($line = mysqli_fetch_assoc($prereq_query_results)){
-    $class_prereqs[] = $line;
-  }
+// require_once 'agenda_controller.php';
 ?>
 <html lang="en">
 <head>
@@ -56,27 +26,9 @@ $exists = (mysql_num_rows($result))?TRUE:FALSE;
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
 
+  <script src="../JS/agenda_maker.js?version=1.3"> </script>
 
 </head>
-<script>
-var creditLimit = 0;
-var semester;
-var credits;
-var semesterNumber;
-var nextSemester;
-var curr_semester_children;
-var curr_semester;
-var next_semester;
-var semesterCredits;
-
-
-//Turns PHP Array into JSON
-var remaining_classes = <?php echo json_encode($total_classes); ?>;
-var class_prereqs = <?php echo json_encode($class_prereqs); ?>;
-</script>
-
-
-
 
 <body>
   <nav class="navbar navbar-expand-sm navbar-light sticky-top">
@@ -90,7 +42,7 @@ var class_prereqs = <?php echo json_encode($class_prereqs); ?>;
          <!-- Navbar links -->
         <div class="collapse navbar-collapse " id="collapsibleNavbar">
           <ul class="nav navbar-nav navbar-right">
-           <!-- <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li> -->
+           <li><a href=""><span class="glyphicon glyphicon-user"></span> <?php echo htmlspecialchars($currentUser); ?></a></li>
            <li><a href="logout.php"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
          </ul>
         </div>
@@ -107,9 +59,9 @@ var class_prereqs = <?php echo json_encode($class_prereqs); ?>;
 <!-- <div id = "student_schedule" class = "well well-sm"> -->
   <center> <H1 id = "title">Your 4 year Plan<H1></center>
   <div class="btn-group well" role="group" aria-label="Basic example">
-    <button type="button" class="btn btn-primary">Save Current Schedule</button>
+    <button type="button" onclick="addDataToDB()" class="btn btn-primary">Save Current Schedule</button>
     <button type="button" onclick="submitClasses()" class="button btn btn-danger">Submit to Advisor</button>
-    <button type="button" class="btn btn-success">Reset Schedule</button>
+    <button type="button" onclick="resetDB()" class="btn btn-success">Reset Schedule</button>
   </div>
 
 
@@ -171,5 +123,5 @@ var class_prereqs = <?php echo json_encode($class_prereqs); ?>;
 
 
 </body>
-<script src="../JS/agenda_maker.js?version=0.4"> </script>
+
 </html>
