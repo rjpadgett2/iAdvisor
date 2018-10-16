@@ -1,24 +1,27 @@
-/* Info Div */
-#infoBox {
-  float:right;
-  width: 350px;
-  font-size: 15px;
-  background-color: #F6F5F5;
-}
-.affix {
-    top: 0;
-    width: 100%;
-    z-index: 9999 !important;
+/* Exception UL */
+
+li.list-group-item.exceptions {
+  color: white;
+  background: red;
+  border-radius: 2px;
+  border-color: red;
 }
 
-.affix + .container-fluid {
-    padding-top: 70px;
-}
-h4#infobox-title {
-  color: red;
+li.list-group-item:hover {
+  border-color: black;
+  border-radius: 10px;
+  font-size: 16px;
 }
 
+div#infoBox {
+  width: 300px;
+  display:none;
+  position: fixed;
+  right: 190px;
+  background-color: yellow;
+  size: 2em;
 
+}
 /* Agenda Styling */
 div.year-one {
     float:left;
@@ -112,7 +115,7 @@ span.credits {
 }
 
 .btn-group {
-  
+
 }
 
 .button:hover span {

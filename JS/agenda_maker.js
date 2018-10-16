@@ -12,26 +12,62 @@ var remaining_classes;
 var  class_prereqs;
 var saved_classes;
 
+//===================================================
+//============Information Div Functionality===========
+//===================================================
+  function hideInfoDiv() {
+    var infoBox = document.getElementById('infoBox');
+    infoBox.innerHTML = "";
+    infoBox.style.display= 'none';
+  }
+  function showInfoDiv(elem) {
+    //Grabs ul identifier of target ul
+    var ul = elem.parentElement;
+    var ul_id = ul.id;
+    var origin = elem.id;
+    var infoBox = document.getElementById('infoBox');
+    var msg = "<h4>You Cannot take <i><strong>" + elem.textContent + "</strong></i> in the same semester as</h4><br><br>";
 
-  //===================================================
-  //============Submit Functionality===================
-  //===================================================
+    if(elem.classList.contains("exceptions")){
+      infoBox.style.display= 'block';
+      infoBox.innerHTML += msg;
+        $.ajax({
+            url:"../PHP/pre_req_lookup.php",
+            type: 'POST',
+            data: {origin: origin},
+            success: function(data){
+                output = JSON.parse(data);
+                for(var i = 0; i < output.length; i++){
+                  //iterates through UL and checks li ID's
+                  $(ul).find('li').each(function(j){
+                    //prits type of values being compared
+                      if (parseInt($(this).attr("id")) == parseInt(output[i]["pre_req_of"])) {
+                        // console.log("yes:" + $(this).attr("id"));
+                        // changes color of Li of dragged element to Red to indicate pre_req error
+                        infoBox.innerHTML += "" + output[i].class_num + " " + output[i].class_name + "<br>";
+                      }
+                  });
+                }
+            },
+        });
+    }
+}
+
+//===================================================
+//============Submit Functionality===================
+//===================================================
   function addDataToDB() {
     var obj = fetchChild();
     var finishedJSON = JSON.stringify(obj, null, 2);
-    // console.log("hello2");
-
     $.ajax({
         url:"../PHP/save_to_db.php",
         type: 'POST',
         data: {finishedJSON: finishedJSON},
         success: function(data){
-          console.log(data);
         }
     });
     location.reload();
   }
-
 
   function fetchChild(){
     var data =[];
@@ -57,6 +93,7 @@ var saved_classes;
         data.push(buildJSON($(this)));
       });
       $('#semester8  > li').each(function(){
+
         data.push(buildJSON($(this)));
       });
      return data;
@@ -64,16 +101,17 @@ var saved_classes;
 
   function buildJSON(li) {
     var li_id = li[0].id;
-    var value;
-    if(li.is('.list-group-item-danger')){
-      value = document.getElementById(li_id)
+    var elem = document.getElementById(li_id);
+    var value = 0;
+    if (elem.getAttribute("exception")){
+      value = elem.getAttribute("exception");
     }
     var subObj = {
       // "student_id": ,
       "id": $(li).attr('id'),
       "class": li.contents().text(),
       "semester": $(li).parent().attr('id'),
-      "exceptions": "value"
+      "exceptions": value
     }
     return subObj;
   }
@@ -136,7 +174,6 @@ var saved_classes;
 
   var obj = fetchChild();
   var finishedJSON = JSON.stringify(obj, null, 2);
-  console.log(finishedJSON);
   var csv = ConvertToCSV(finishedJSON);
   var filename = 'class_schedule.csv';
   var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -157,6 +194,10 @@ var saved_classes;
     }
     location.reload();
   }
+
+  //===================================================
+  //============Agenda AJAX Calls===================
+  //===================================================
 
   function ajax(url) {
     return new Promise(function(resolve, reject) {
@@ -208,7 +249,6 @@ function load_saved_classes() {
 
 
 $.when(load_classes(), pre_req_classes(), load_saved_classes()).done(function() {
-  console.log(class_prereqs);
   $(document).ready(function(){
     $( function() {
      $( "#semester1, #semester2, #semester3, #semester4, #semester5, #semester6, #semester7, #semester8").sortable({
@@ -264,17 +304,22 @@ $.when(load_classes(), pre_req_classes(), load_saved_classes()).done(function() 
             semester = 'semester8';
           }
           listMaker();
-          $(curr_semester).append('<li id = "'+items.class_id+'" class="list-group-item">'
+          $(curr_semester).append('<li onMouseOver="showInfoDiv(this)" onMouseOut = "hideInfoDiv(this)" id = "'+items.class_id+'" class="list-group-item">'
           + items.class_num + " " + items.class_name + ' <em><h6>Credits:' + items.credits + '</h6></em></li>');
         });
       }else {
         //Upload Saved Data
         $.each(saved_classes, function(i, items) {
           curr_semester = document.getElementById(items.semester);
-          $(curr_semester).append('<li id = "'+items.class_id+'" class="list-group-item">'
-          + items.class_num + " " + items.class_name + ' <em><h6>Credits:' + items.credits + '</h6></em></li>');
+          $(curr_semester).append('<li onMouseOver="showInfoDiv(this)" onMouseOut = "hideInfoDiv(this)" id = "'+items.class_id+'" class="list-group-item">'
+          + items.class_num + " " + items.class_name);
+          if (items.exceptions == 1){
+            console.log("yes");
+            get_class = document.getElementById(items.class_id)
+            get_class.setAttribute("exception", items.exceptions);
+            get_class.classList.add("exceptions");
+          }
         });
-
     }
   });
     //Makes Year Div dissapear if there are no classes being taken that year
@@ -332,42 +377,36 @@ $.when(load_classes(), pre_req_classes(), load_saved_classes()).done(function() 
     //Grabs ul identifier of target ul
     var receiver = event.target;
     var curr_elem = document.getElementById(receiver.id).tagName;
-    // var number_one = $(receiver).prev().text().replace(/[^0-9]/gi, '');
-    // var curr_credits = parseInt(number_one, 10);
 
     //ID of list elemtent being dragged
     var origin = ui.item.attr('id');
     var originText = ui.item.text();
 
     var origin_credits = parseInt(originText.replace(/[^0-9]/gi, ''), 10);
-
-    //ID of Info Div
-    var infoDiv = document.getElementById("infoBox");
-    //Ajax call that returns list pf pre-reqs from database
       $.ajax({
           url:"../PHP/pre_req_lookup.php",
           type: 'POST',
           data: {origin: origin},
           success: function(data){
-            output = JSON.parse(data);
-            for(var i = 0; i < output.length; i++){
-              //iterates through UL and checks li ID's
-              $(receiver).find('li').each(function(j){
-                //prits type of values being compared
-                  if (parseInt($(this).attr("id")) == parseInt(output[i]["pre_req_of"])) {
-                    // console.log("yes:" + $(this).attr("id"));
-                    // changes color of Li of dragged element to Red to indicate pre_req error
-                    document.getElementById($(this).attr("id")).className = "list-group-item list-group-item-danger";
-                    if (infoDiv.style.display === "none") {
-                        infoDiv.style.display = "block";
+            if(document.getElementById(ui.item.attr('id')).hasAttribute("exception")){
+              document.getElementById(ui.item.attr('id')).removeAttribute("exception");
+              document.getElementById(ui.item.attr('id')).classList.remove("exceptions");
+            }else {
+              output = JSON.parse(data);
+              for(var i = 0; i < output.length; i++){
+                //iterates through UL and checks li ID's
+                $(receiver).find('li').each(function(j){
+                  //prits type of values being compared
+                    if (parseInt($(this).attr("id")) == parseInt(output[i]["pre_req_of"])) {
+                      // console.log("yes:" + $(this).attr("id"));
+                      // changes color of Li of dragged element to Red to indicate pre_req error
+                      document.getElementById(ui.item.attr('id')).className = "list-group-item exceptions";
+                      document.getElementById(ui.item.attr('id')).setAttribute("exception","1");
                     }
-                    infoDiv.innerHTML += "<H6><em>" + originText +"</em></H6> is a pre-req of <H6><em>"
-                    + this.innerHTML + "</em></H6> and cannot be taken in the same semester<br>";
-                  }
-              });
+                });
+              }
             }
           },
       });
   }
-
 });

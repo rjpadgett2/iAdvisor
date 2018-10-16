@@ -3,7 +3,8 @@
 ?>
 <html lang="en">
 <head>
-  <link rel="stylesheet" href="../CSS/agenda_maker_style.css?version=10">
+  <link rel="stylesheet" href="../CSS/agenda_maker_style.css?version=13">
+
 
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,8 +26,9 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
+  <link rel="stylesheet" href="../lib/w3.css">
 
-  <script src="../JS/agenda_maker.js?version=1.3"> </script>
+  <script src="../JS/agenda_maker.js?version=1.4"> </script>
 
 </head>
 
@@ -49,11 +51,9 @@
    </nav>
 
 <!-- Exception Information -->
-<nav id = "infoBox" style="display:none;" class="navbar navbar-inverse" data-spy="affix" data-offset-top="197">
+<div id = "infoBox"  class="navbar navbar-inverse" data-spy="affix" data-offset-right="197">
  <span class="glyphicon glyphicon-warning-sign"></span>
- <H4 id = "infobox-title">You need special permission to take these classes:</H4>
- <br>
-</nav>
+</div>
 
 <!-- Student 4 year Plan -->
 <!-- <div id = "student_schedule" class = "well well-sm"> -->

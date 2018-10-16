@@ -19,7 +19,7 @@ $currentUser = $_SESSION['email'];
     $student_id = $line['student_id'];
   }
 
-  $saved_classes_query = "SELECT Student_Course_Assoc.class_id, class_num, class_name, semester ,credits FROM Course JOIN Student_Course_Assoc
+  $saved_classes_query = "SELECT Student_Course_Assoc.class_id, class_num, class_name, semester ,credits, exceptions FROM Course JOIN Student_Course_Assoc
   ON Course.class_id = Student_Course_Assoc.class_id WHERE student_id = '$student_id'";
   $saved_classes_query_results = mysqli_query($connection, $saved_classes_query);
 
