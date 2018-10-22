@@ -127,6 +127,9 @@
         <center><H3>Please Sign in with your University login information.</H3></center>
 
       </div>
+      <div class="alert alert-info">
+       <strong>For Testing Purposes</strong> Username: jdoe@umd.edu Password: password</a>.
+     </div>
 
       <div class="wrapper">
         <h2>Login</h2>

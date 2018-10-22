@@ -1,4 +1,5 @@
 <?php
+// For testing Purposes
 // $server = "127.0.0.1";
 // $username = "root";
 // $password = "nilemonitor354";
@@ -12,6 +13,7 @@
 //     die("Connection failed: " . mysqli_connect_error());
 // }
 
+// For Cloud Purposes
 $server = "35.227.16.244";
 $username = "rpadgett";
 $password = "iadvisor";

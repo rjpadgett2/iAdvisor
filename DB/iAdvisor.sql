@@ -28,10 +28,9 @@ CREATE TABLE `Course` (
   `class_name` varchar(80) NOT NULL,
   `credits` int(11) NOT NULL,
   `core` int(11) DEFAULT NULL,
-  `school_id` int(11) NOT NULL,
-  PRIMARY KEY (`class_id`,`school_id`),
-  KEY `fk_Course_school1_idx` (`school_id`),
-  CONSTRAINT `fk_Course_school1` FOREIGN KEY (`school_id`) REFERENCES `School` (`school_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `department_id` int(11) NOT NULL,
+  PRIMARY KEY (`class_id`,`department_id`),
+  KEY `fk_Course_school1_idx` (`department_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -41,8 +40,35 @@ CREATE TABLE `Course` (
 
 LOCK TABLES `Course` WRITE;
 /*!40000 ALTER TABLE `Course` DISABLE KEYS */;
-INSERT INTO `Course` VALUES (1,'115','Precalculus',3,1,0),(2,'100','Introduction to Psychology',3,1,0),(3,'100','Elementary Statistics and Probability',3,1,0),(4,'126','Programming for non-CS majors',3,1,0),(5,'201','Introduction to Information Science',3,1,0),(6,'311','Information Organization',3,1,0),(7,'314','Statistics for Information Science',3,1,0),(8,'326','Object-Oriented Programming for Information Science',3,1,0),(9,'327','Database Design and Modeling',3,1,0),(10,'335','Teams and Organizations',3,1,0),(11,'346','Technologies, Infrastructures and Architecture',3,1,0),(12,'352','Information User Needs and Assessment',3,1,0),(13,'362','User-Centered Design',3,1,0),(14,'490','Integrative Capstone',3,1,0),(15,'354','Decision-Making for Information Science',3,0,0),(16,'377','Dynamic Web Applications',3,0,0),(17,'414','Advanced Data Science',3,0,0),(18,'447','Data Sources and Manipulation',3,0,0),(19,'462','Introduction to Data Visualization',3,0,0),(20,'466','Technology, Culture, and Society',3,0,0),(21,'408B','Special Topics in Information Science; Design and Humanity Disability and Aging',3,0,0);
+INSERT INTO `Course` VALUES (1,'115','Precalculus',3,1,2),(2,'100','Introduction to Psychology',3,1,4),(3,'100','Elementary Statistics and Probability',3,1,3),(4,'126','Programming for non-CS majors',3,1,2),(5,'201','Introduction to Information Science',3,1,1),(6,'311','Information Organization',3,1,1),(7,'314','Statistics for Information Science',3,1,1),(8,'326','Object-Oriented Programming for Information Science',3,1,1),(9,'327','Database Design and Modeling',3,1,1),(10,'335','Teams and Organizations',3,1,1),(11,'346','Technologies, Infrastructures and Architecture',3,1,1),(12,'352','Information User Needs and Assessment',3,1,1),(13,'362','User-Centered Design',3,1,1),(14,'490','Integrative Capstone',3,1,1),(15,'354','Decision-Making for Information Science',3,0,1),(16,'377','Dynamic Web Applications',3,0,1),(17,'414','Advanced Data Science',3,0,1),(18,'447','Data Sources and Manipulation',3,0,1),(19,'462','Introduction to Data Visualization',3,0,1),(20,'466','Technology, Culture, and Society',3,0,1),(21,'408B','Special Topics in Information Science; Design and Humanity Disability and Aging',3,0,0);
 /*!40000 ALTER TABLE `Course` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Departments`
+--
+
+DROP TABLE IF EXISTS `Departments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `Departments` (
+  `department_id` int(11) NOT NULL AUTO_INCREMENT,
+  `department_name` varchar(45) DEFAULT NULL,
+  `abbreviation` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`department_id`),
+  UNIQUE KEY `school_name_UNIQUE` (`department_name`),
+  UNIQUE KEY `abbreviation_UNIQUE` (`abbreviation`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Departments`
+--
+
+LOCK TABLES `Departments` WRITE;
+/*!40000 ALTER TABLE `Departments` DISABLE KEYS */;
+INSERT INTO `Departments` VALUES (1,'Information Studies','INST'),(2,'Mathematics','MATH'),(3,'Statistics','STAT'),(4,'Psychology','PSYC');
+/*!40000 ALTER TABLE `Departments` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -113,7 +139,7 @@ CREATE TABLE `Student_Course_Assoc` (
   PRIMARY KEY (`sc_assoc_id`),
   KEY `fk_Students_has_Course1_Course1_idx` (`class_id`),
   KEY `fk_Students_has_Course1_Students_idx` (`student_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1871 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1892 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,7 +148,7 @@ CREATE TABLE `Student_Course_Assoc` (
 
 LOCK TABLES `Student_Course_Assoc` WRITE;
 /*!40000 ALTER TABLE `Student_Course_Assoc` DISABLE KEYS */;
-INSERT INTO `Student_Course_Assoc` VALUES (1850,111111123,2,0,'semester1',0),(1851,111111123,5,0,'semester2',1),(1852,111111123,3,0,'semester2',0),(1853,111111123,1,0,'semester2',1),(1854,111111123,4,0,'semester2',0),(1855,111111123,6,0,'semester2',0),(1856,111111123,7,0,'semester2',0),(1857,111111123,8,0,'semester2',0),(1858,111111123,10,0,'semester2',0),(1859,111111123,9,0,'semester3',0),(1860,111111123,11,0,'semester3',0),(1861,111111123,12,0,'semester3',0),(1862,111111123,13,0,'semester3',0),(1863,111111123,14,0,'semester3',0),(1864,111111123,15,0,'semester3',0),(1865,111111123,16,0,'semester4',0),(1866,111111123,17,0,'semester4',0),(1867,111111123,18,0,'semester4',0),(1868,111111123,19,0,'semester4',0),(1869,111111123,20,0,'semester4',0),(1870,111111123,21,0,'semester5',0);
+INSERT INTO `Student_Course_Assoc` VALUES (1871,111111123,2,0,'semester1',0),(1872,111111123,5,0,'semester2',1),(1873,111111123,3,0,'semester2',0),(1874,111111123,4,0,'semester2',0),(1875,111111123,1,0,'semester2',1),(1876,111111123,6,0,'semester2',0),(1877,111111123,7,0,'semester2',0),(1878,111111123,8,0,'semester2',0),(1879,111111123,10,0,'semester2',0),(1880,111111123,9,0,'semester3',0),(1881,111111123,11,0,'semester3',0),(1882,111111123,12,0,'semester3',0),(1883,111111123,13,0,'semester3',0),(1884,111111123,14,0,'semester3',0),(1885,111111123,15,0,'semester3',0),(1886,111111123,16,0,'semester4',0),(1887,111111123,17,0,'semester4',0),(1888,111111123,18,0,'semester4',0),(1889,111111123,19,0,'semester4',0),(1890,111111123,20,0,'semester4',0),(1891,111111123,21,0,'semester5',0);
 /*!40000 ALTER TABLE `Student_Course_Assoc` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -141,7 +167,7 @@ CREATE TABLE `Students` (
   `password` varchar(255) DEFAULT NULL,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`student_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=111111125 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=111111126 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -150,35 +176,8 @@ CREATE TABLE `Students` (
 
 LOCK TABLES `Students` WRITE;
 /*!40000 ALTER TABLE `Students` DISABLE KEYS */;
-INSERT INTO `Students` VALUES (111111120,'jdoe@umd.edu','Doe','John','$2y$10$E8G2NMi4wrrG0LBl2ePCDOjxVaADX16zpZ2hjathPpiQSmQUZZUey','2018-06-06 11:03:14'),(111111121,'asaba@umd.edu','Saba','Azeez','$2y$10$f7JZHSNU/2qjhtQ4PiXZHuLqmdRg02igswMcVPpp0DwNFjPB4RgXC','2018-06-08 17:56:23'),(111111122,'mmonroe@gmail.com','Monroe','Maryland','$2y$10$PD0/x.cN0tv8oSa4yex3cup6YTZsVh8hGxWNBYktT34JdKkVdE6uq','2018-08-09 14:14:29'),(111111123,'dcarter@gmail.com','Carter','Dwayne','$2y$10$nF36jPtn4.5JTOosUob4p.31JzC8wVnm6rlxVjtSTrBWDc4CyE3dy','2018-08-09 14:15:47'),(111111124,'apryor@gmail.com','Pryor','Alex','$2y$10$LbxOCioxihC.Wy1b98ui6eadXxk21azNvAerBEaiZ5ryMkrhV8eQO','2018-08-24 13:48:20');
+INSERT INTO `Students` VALUES (111111120,'jdoe@umd.edu','Doe','John','$2y$10$E8G2NMi4wrrG0LBl2ePCDOjxVaADX16zpZ2hjathPpiQSmQUZZUey','2018-06-06 11:03:14'),(111111121,'asaba@umd.edu','Saba','Azeez','$2y$10$f7JZHSNU/2qjhtQ4PiXZHuLqmdRg02igswMcVPpp0DwNFjPB4RgXC','2018-06-08 17:56:23'),(111111122,'mmonroe@gmail.com','Monroe','Maryland','$2y$10$PD0/x.cN0tv8oSa4yex3cup6YTZsVh8hGxWNBYktT34JdKkVdE6uq','2018-08-09 14:14:29'),(111111123,'dcarter@gmail.com','Carter','Dwayne','$2y$10$nF36jPtn4.5JTOosUob4p.31JzC8wVnm6rlxVjtSTrBWDc4CyE3dy','2018-08-09 14:15:47'),(111111124,'apryor@gmail.com','Pryor','Alex','$2y$10$LbxOCioxihC.Wy1b98ui6eadXxk21azNvAerBEaiZ5ryMkrhV8eQO','2018-08-24 13:48:20'),(111111125,'olimar@gmail.com','Pikpik','Olimar','$2y$10$Q4NydNDhCd1kbEeR0Ke1FOPz2e9vu2t3rZnVkoj4.X9/1FQtgJ8LS','2018-10-18 20:52:56');
 /*!40000 ALTER TABLE `Students` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `school`
---
-
-DROP TABLE IF EXISTS `school`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `school` (
-  `school_id` int(11) NOT NULL AUTO_INCREMENT,
-  `school_name` varchar(45) DEFAULT NULL,
-  `abbreviation` varchar(10) DEFAULT NULL,
-  PRIMARY KEY (`school_id`),
-  UNIQUE KEY `school_name_UNIQUE` (`school_name`),
-  UNIQUE KEY `abbreviation_UNIQUE` (`abbreviation`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `school`
---
-
-LOCK TABLES `school` WRITE;
-/*!40000 ALTER TABLE `school` DISABLE KEYS */;
-INSERT INTO `school` VALUES (1,'Information Studies','INST'),(2,'Mathematics','MATH'),(3,'Statistics','STAT'),(4,'Psychology','PSYC');
-/*!40000 ALTER TABLE `school` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -190,4 +189,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-15 23:15:45
+-- Dump completed on 2018-10-22  0:35:44

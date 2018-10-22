@@ -15,6 +15,31 @@ var saved_classes;
 //===================================================
 //============Information Div Functionality===========
 //===================================================
+
+  function getInfo(elem) {
+    let elem_class = "INST"+elem.getAttribute("data-class-name");
+    let title = document.getElementsByClassName('modal-title')[0];
+    let gen_info = document.getElementById('gen_info');
+    let grade_method = document.getElementById('grading_method');
+    let pre_req = document.getElementById('pre_reqs');
+    let sections = document.getElementById('sections');
+    $.ajax({
+        url:"https://api.umd.io/v0/courses/"+elem_class,
+        type: 'GET',
+        success: function(data){
+          title.innerHTML = data.course_id + " <h5>" + data.name + "</h5>";
+          gen_info.innerHTML = data.description;
+          grade_method.innerHTML = data.grading_method;
+          pre_reqs.innerHTML = data.relationships.prereqs;
+          sections.innerHTML = data.sections;
+          console.log(data);
+        },
+    });
+
+    // div = document.getElementById('modal-body');
+    // div.innerHTML = elem_class;
+  }
+
   function hideInfoDiv() {
     var infoBox = document.getElementById('infoBox');
     infoBox.innerHTML = "";
@@ -26,10 +51,11 @@ var saved_classes;
     var ul_id = ul.id;
     var origin = elem.id;
     var infoBox = document.getElementById('infoBox');
-    var msg = "<h4>You Cannot take <i><strong>" + elem.textContent + "</strong></i> in the same semester as</h4><br><br>";
+    var msg = "";
 
     if(elem.classList.contains("exceptions")){
       infoBox.style.display= 'block';
+      msg = "<h4>You Cannot take <i><strong>" + elem.textContent + "</strong></i> in the same semester as</h4><br><br>";
       infoBox.innerHTML += msg;
         $.ajax({
             url:"../PHP/pre_req_lookup.php",
@@ -304,15 +330,21 @@ $.when(load_classes(), pre_req_classes(), load_saved_classes()).done(function() 
             semester = 'semester8';
           }
           listMaker();
-          $(curr_semester).append('<li onMouseOver="showInfoDiv(this)" onMouseOut = "hideInfoDiv(this)" id = "'+items.class_id+'" class="list-group-item">'
+
+          $(curr_semester).append('<li data-class-name = "'+items.class_num+'" onclick = "getInfo(this)" onMouseOver="showInfoDiv(this)" onMouseOut = "hideInfoDiv(this)" data-toggle="modal" data-target="#infoModal" id =  "'
+          +items.class_id+'" class="list-group-item">'
           + items.class_num + " " + items.class_name + ' <em><h6>Credits:' + items.credits + '</h6></em></li>');
+
         });
       }else {
         //Upload Saved Data
         $.each(saved_classes, function(i, items) {
+
           curr_semester = document.getElementById(items.semester);
-          $(curr_semester).append('<li onMouseOver="showInfoDiv(this)" onMouseOut = "hideInfoDiv(this)" id = "'+items.class_id+'" class="list-group-item">'
-          + items.class_num + " " + items.class_name);
+          $(curr_semester).append('<li data-class-name = "'+items.class_num+'" onclick = "getInfo(this)" onMouseOver="showInfoDiv(this)" onMouseOut = "hideInfoDiv(this)" data-toggle="modal" data-target="#infoModal" id = "'
+          +items.class_id+'" class="list-group-item">'
+          + items.class_num + " " + items.class_name + ' <em><h6>Credits:' + items.credits + '</h6></em></li>');
+
           if (items.exceptions == 1){
             console.log("yes");
             get_class = document.getElementById(items.class_id)
