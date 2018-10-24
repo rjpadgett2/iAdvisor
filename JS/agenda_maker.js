@@ -17,7 +17,7 @@ var saved_classes;
 //===================================================
 
   function getInfo(elem) {
-    let elem_class = "INST"+elem.getAttribute("data-class-name");
+    let elem_class = elem.getAttribute("data-class-name");
     let title = document.getElementsByClassName('modal-title')[0];
     let gen_info = document.getElementById('gen_info');
     let grade_method = document.getElementById('grading_method');
@@ -34,16 +34,18 @@ var saved_classes;
           sections.innerHTML = data.sections;
           console.log(data);
         },
+        error: function(xhr){
+          alert("Cannot Find Class Info");
+        },
     });
 
-    // div = document.getElementById('modal-body');
-    // div.innerHTML = elem_class;
   }
 
-  function hideInfoDiv() {
+  function hideInfoDiv(elem) {
     var infoBox = document.getElementById('infoBox');
     infoBox.innerHTML = "";
     infoBox.style.display= 'none';
+    elem.style.backgroundColor = null;
   }
   function showInfoDiv(elem) {
     //Grabs ul identifier of target ul
@@ -76,6 +78,8 @@ var saved_classes;
                 }
             },
         });
+    }else{
+      elem.style.backgroundColor = "#B0B8FE";
     }
 }
 
@@ -331,9 +335,9 @@ $.when(load_classes(), pre_req_classes(), load_saved_classes()).done(function() 
           }
           listMaker();
 
-          $(curr_semester).append('<li data-class-name = "'+items.class_num+'" onclick = "getInfo(this)" onMouseOver="showInfoDiv(this)" onMouseOut = "hideInfoDiv(this)" data-toggle="modal" data-target="#infoModal" id =  "'
-          +items.class_id+'" class="list-group-item">'
-          + items.class_num + " " + items.class_name + ' <em><h6>Credits:' + items.credits + '</h6></em></li>');
+          $(curr_semester).append('<li title = "Click For Class Info" data-credits = "'+ items.credits +'" data-class-name = "'+items.abbreviation+items.class_num+'" onclick = "getInfo(this)" onMouseOver="showInfoDiv(this)" onMouseOut = "hideInfoDiv(this)" data-toggle="modal" data-target="#infoModal" id =  "'
+          +items.class_id+'" class="list-group-item single-class">'
+          + items.class_num + " " + items.class_name + ' <em><h6>Credits: ' + items.credits + '</h6></em></li>');
 
         });
       }else {
@@ -341,8 +345,8 @@ $.when(load_classes(), pre_req_classes(), load_saved_classes()).done(function() 
         $.each(saved_classes, function(i, items) {
 
           curr_semester = document.getElementById(items.semester);
-          $(curr_semester).append('<li data-class-name = "'+items.class_num+'" onclick = "getInfo(this)" onMouseOver="showInfoDiv(this)" onMouseOut = "hideInfoDiv(this)" data-toggle="modal" data-target="#infoModal" id = "'
-          +items.class_id+'" class="list-group-item">'
+          $(curr_semester).append('<li title = "Click For Class Info" data-credits = "'+ items.credits +'" data-class-name = "'+items.abbreviation+items.class_num+'" onclick = "getInfo(this)" onMouseOver="showInfoDiv(this)" onMouseOut = "hideInfoDiv(this)" data-toggle="modal" data-target="#infoModal" id = "'
+          +items.class_id+'" class="list-group-item single-class">'
           + items.class_num + " " + items.class_name + ' <em><h6>Credits:' + items.credits + '</h6></em></li>');
 
           if (items.exceptions == 1){
@@ -375,6 +379,19 @@ $.when(load_classes(), pre_req_classes(), load_saved_classes()).done(function() 
        } else if ($('#semester7 li').length == 0 && $('#semester8 li').length == 0){
          $('.year-four').hide();
        }
+
+    });
+
+    $( function (){
+
+      let semester_one = document.getElementById("semester-one-credits");
+      let semester_two = document.getElementById("semester-two-credits");
+      let semester_three = document.getElementById("semester-three-credits");
+      let semester_four = document.getElementById("semester-four-credits");
+      let semester_five = document.getElementById("semester-five-credits");
+      let semester_six = document.getElementById("semester-six-credits");
+      let semester_seven = document.getElementById("semester-seven-credits");
+      let semester_eight = document.getElementById("semester-eight-credits");
 
     });
 

@@ -11,20 +11,13 @@ if(!isset($_SESSION['email']) || empty($_SESSION['email'])){
   exit;
 }
 
-//All Queries
-$currentUser = $_SESSION['email'];
 $total_classes = array();
-//Gets Current User ID
-$current_user_data_query = "SELECT student_id FROM Students WHERE email = '$currentUser';";
-$current_user_data_query_results = mysqli_query($connection, $current_user_data_query);
-while($line = mysqli_fetch_assoc($current_user_data_query_results)){
-  $student_id = $line['student_id'];
-}
 
-  $all_classes_query = "SELECT class_id, class_num, class_name, credits FROM Course";
-  $all_classes_query_results = mysqli_query($connection, $all_classes_query);
-  while($line = mysqli_fetch_assoc($all_classes_query_results)){
-    $total_classes[] = $line;
-  }
-  echo json_encode($total_classes);
+$all_classes_query = "SELECT class_id, class_num, class_name, credits, abbreviation FROM Course JOIN Departments
+WHERE Course.department_id = Departments.department_id order by Course.class_id";
+$all_classes_query_results = mysqli_query($connection, $all_classes_query);
+while($line = mysqli_fetch_assoc($all_classes_query_results)){
+  $total_classes[] = $line;
+}
+echo json_encode($total_classes);
 ?>

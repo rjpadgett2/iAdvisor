@@ -31,7 +31,7 @@
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
 
-  <script src="../JS/agenda_maker.js?version=1.5"> </script>
+  <script src="../JS/agenda_maker.js?version=1.6"> </script>
 
 </head>
 
