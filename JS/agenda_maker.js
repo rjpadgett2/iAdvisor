@@ -249,6 +249,7 @@ function load_classes() {
       cache: false,
       success: function(data){
         remaining_classes = data;
+        console.log(data);
       }
   });
 }

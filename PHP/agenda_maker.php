@@ -104,9 +104,6 @@
 <!-- Student 4 year Plan -->
 <!-- <div id = "student_schedule" class = "well well-sm"> -->
   <center> <H1 id = "title">Your 4 year Plan<H1></center>
-  <div class="alert alert-info">
-    <strong>Attention!</strong> Click on Individual Classes to get more Information(Only works for InfoSci classes for now).
-  </div>
   <div class="btn-group well" role="group" aria-label="Basic example">
     <button type="button" onclick="addDataToDB()" class="btn btn-primary">Save Current Schedule</button>
     <button type="button" onclick="submitClasses()" class="button btn btn-danger">Submit to Advisor</button>
