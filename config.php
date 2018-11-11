@@ -14,7 +14,7 @@
 // }
 
 // For Cloud Purposes
-$server = "35.227.16.244";
+$server = "104.196.186.97";
 $username = "rpadgett";
 $password = "iadvisor";
 $db = "iAdvisor";
