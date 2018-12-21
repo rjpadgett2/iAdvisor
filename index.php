@@ -1,155 +1,182 @@
 <?php
-  // Include config file
-  require_once 'config.php';
-
-  // Define variables and initialize with empty values
-  $email = $password = "";
-  $email_err = $password_err = "";
-
-  // Processing form data when form is submitted
-  if($_SERVER["REQUEST_METHOD"] == "POST"){
-
-    // Check if username is empty
-    if(empty(trim($_POST["email"]))){
-        $email_err = 'Please enter email address.';
-    } else{
-        $email = trim($_POST["email"]);
-    }
-
-    // Check if password is empty
-    if(empty(trim($_POST['password']))){
-        $password_err = 'Please enter your password.';
-    } else{
-        $password = trim($_POST['password']);
-    }
-
-    // Validate credentials
-    if(empty($email_err) && empty($password_err)){
-        // Prepare a select statement
-        $sql = "SELECT email, password FROM Students WHERE email = ?";
-
-        if($stmt = mysqli_prepare($connection, $sql)){
-            // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "s", $param_email);
-
-            // Set parameters
-            $param_email = $email;
-
-            // Attempt to execute the prepared statement
-            if(mysqli_stmt_execute($stmt)){
-                // Store result
-                mysqli_stmt_store_result($stmt);
-
-                // Check if username exists, if yes then verify password
-                if(mysqli_stmt_num_rows($stmt) == 1){
-                    // Bind result variables
-                    mysqli_stmt_bind_result($stmt, $email, $hashed_password);
-                    if(mysqli_stmt_fetch($stmt)){
-                        if(password_verify($password, $hashed_password)){
-                            /* Password is correct, so start a new session and
-                            save the email to the session */
-                            session_start();
-                            $_SESSION['email'] = $email;
-                            header("location: PHP/home.php");
-                        } else{
-                            // Display an error message if password is not valid
-                            $password_err = 'The password you entered was not valid.';
-                        }
-                    }
-                } else{
-                    // Display an error message if username doesn't exist
-                    $email_err = 'No account found with that email address.';
-                }
-            } else{
-                echo "Oops! Something went wrong. Please try again later.";
-            }
-        }
-
-        // Close statement
-        mysqli_stmt_close($stmt);
-    }
-
-    // Close connection
-    mysqli_close($connection);
-  }
+include_once("partials/header.php");
 ?>
-<html lang="en">
-  <head>
-    <link rel="stylesheet" href="../CSS/index.css?version=0.8">
 
-    <meta charset = "utf-8">
-    <meta name = "viewport" content="width=device-width, initial-scale = 1">
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
-
-    <!-- jQuery library -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-    <!-- Popper JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
-
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
-
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-
-
-    <title>iAdvisor</title>
-
+    <link rel="stylesheet" href="../styles/index.css?version=1.3">
+    <script src="/scripts/index.js?version=3.5"> </script>
 </head>
   <body>
 
-
-  <nav class="navbar navbar-expand-sm navbar-light sticky-top">
-    <a class="navbar-brand" href="#">
-      <img src="img/iAdvisorLogo.png" alt="Logo" style="width:150px;">
+  <div class="topnav">
+    <a class="nav-buttons active" href="../index.php">
+      <img src="../img/iAdvisorLogo.png" alt="Logo" style="width:100px;">
     </a>
-   <!-- Toggler/collapsibe Button -->
-   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-     <span class="navbar-toggler-icon"></span>
-   </button>
+    <?php
+    if(isset($_SESSION['email'])){?>
+      <a class="nav-buttons" href="/views/agenda_maker.php">4 Year Plan</a>
+      <div class="topnav-right">
+        <a class="nav-buttons" href = "/about.html"><i class="fa fa-fw fa-info-circle" aria-hidden="true"></i>About</a>
+        <a class="nav-buttons" href = "https://uachieve.umd.edu/"><i class="fa fa-fw fa-star-o" aria-hidden="true"></i>UAchieve</a>
+        <a class="nav-buttons" href = ""><i class="fa fa-fw fa-question" aria-hidden="true"></i>Help</a>
+        <a class="nav-buttons" href="/routes/login/student_login.php?action=logout"><i class="fa fa-fw fa-sign-in"></i>Logout</a>
+     </div>
+    <?php }
+   else{
+     ?>
+      <!-- <button id = "register-btn" class="nav-buttons">Register</button>
+      <button id = "student-btn" class="nav-buttons"><i class="fa fa-fw fa-user"></i>Login</button> -->
+      <a id = "advisor-btn" class="nav-buttons">Advisor Portal</a>
+      <a id = "register-btn" class="nav-buttons"><i class="fa fa-fw fa-user-plus" aria-hidden="true"></i>Register</a>
+      <a id = "student-btn" class="nav-buttons"><i class="fa fa-fw fa-sign-in"></i>Login</a>
+    <?php } ?>
+ </div>
 
-    <!-- Navbar links -->
-   <div class="collapse navbar-collapse " id="collapsibleNavbar">
-     <ul class="navbar-nav">
-       <li class="nav-item">
-         <a class="nav-link" href="about.html">About</a>
-       </li>
-     </ul>
-   </div>
-  </nav>
+<div id="student_login" class="modal">
+  <div class="row box" id="login-box">
+	<div class="col-md-6 col-md-offset-3">
+		<div class="panel panel-login">
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('student_login').style.display='none'" class="close" title="Close Modal">&times;</span>
+    </div>
+
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-lg-12">
+				  <div class="alert alert-danger" role="alert" id="error" style="display: none;">...</div>
+
+				  <form id="student_login_form" name="student_login_form" role="form" style="display: block;" method="post">
+					  <div class="form-group">
+						<input type="email" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value=""  required>
+					  </div>
+					  <div class="form-group">
+						<input type="password" name="password" id="login_password" tabindex="2" class="form-control" placeholder="Password" required>
+					  </div>
+					  <div class="col-xs-12 form-group pull-right">
+							<button type="submit" name="student_login-submit" id="student_login-submit" tabindex="4" class="form-control btn btn-primary">
+							 <span class="spinner"><i class="icon-spin icon-refresh" id="spinner"></i></span> Log In
+							</button>
+					  </div>
+				  </form>
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+</div>
+</div>
+
+<div id = "student_registration" class = "modal">
+  <div class="col-md-8 col-md-offset-2">
+  <div class="panel panel-login">
+
+    <div class="alert alert-info">
+     <h2>Student Registration</h2>
+    </div>
+    <div class="imgcontainer">
+      <span onclick="document.getElementById('student_registration').style.display='none'" class="close" title="Close Modal">&times;</span>
+    </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="alert alert-danger" role="alert" id="error" style="display: none;">...</div>
+          <div class="alert alert-success" role="alert" id="success" style="display: none;">...</div>
+
+        <form id="register-form" method="post" role="form">
+          <div class="messages"></div>
+        <div class="controls">
+        <div class="row">
+        <div class="col-md-6">
+        <div class="form-group">
+        <label for="form_name">Firstname *</label>
+        <input id="form_name" type="text" name="f_name" class="form-control" placeholder="Please enter your firstname *" required="required" data-error="Firstname is required.">
+        <div class="help-block with-errors"></div>
+        </div>
+        </div>
+        <div class="col-md-6">
+        <div class="form-group">
+        <label for="form_lastname">Lastname *</label>
+        <input id="form_lastname" type="text" name="l_name" class="form-control" placeholder="Please enter your lastname *" required="required" data-error="Lastname is required.">
+        <div class="help-block with-errors"></div>
+        </div>
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-md-12">
+        <div class="form-group">
+        <label for="form_email">Email *</label>
+        <input id="form_email" type="email" name="email" class="form-control" placeholder="Please enter your email *" required="required" data-error="Valid email is required.">
+        <div class="help-block with-errors"></div>
+        </div>
+        </div>
+        </div>
+        <div class="row">
+
+        <div class="col-md-6">
+        <div class="form-group">
+        <label for="form_pass">Password</label>
+        <input type="password" name="password" id="password" class="form-control" placeholder="Please enter your password">
+        <div class="help-block with-errors"></div>
+        </div>
+        </div>
+        <div class="col-md-6">
+        <div class="form-group">
+        <label for="form_re_pass">Re-Enter Password</label>
+        <input type="password" name="re_password" id="re_password"  class="form-control" placeholder="Please enter again password">
+        <div class="help-block with-errors"></div>
+        </div>
+        </div>
+        <div class="col-md-12">
+        <div class="form-group">
+        <div class="g-recaptcha" data-sitekey="your site key captcha"></div>
+        </div>
+        </div>
+        <div class="col-md-12">
+        <button type="submit" class="btn btn-success btn-send" id="register_button" name="register_button" value="Register">Register</button>
+        </div>
+        </div>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+</div>
+</div>
+
+<div id="advisor_login" class="modal">
+
+</div>
+
 
     <!-- Sign-in button -->
-    <center><H1>Welcome to iAdvisor<H1></center>
-      <div  class="container">
-          <center><img src = "img/iadvisor.png" height = "100"></center>
-        <center><H3>Please Sign in with your University login information.</H3></center>
-
+   <?php
+    if(isset($_SESSION['email'])){?>
+    <div id="studentBackgroundImage">
+      <center><H1 class = "titles">Welcome Back <?php echo $_SESSION['username']; ?><H1></center>
+        <div  class="container">
+        <center>
+          <span><img src = "img/iadvisor.png" height = "400"></span>
+        </center>
+        </div>
       </div>
-      <div class="alert alert-info">
-       <strong>For Testing Purposes</strong> Username: jdoe@umd.edu Password: password</a>.
-     </div>
+   <?php }
+   else{
+    ?>
+    <div id="backgroundImage">
+      <center><H1 class = "titles">Welcome to iAdvisor<H1></center>
+        <div  class="container">
+        <center>
+          <span><img src = "img/iadvisor.png" height = "400"></span>
+        </center>
+          <center><H3 class = "titles">The stress free online advising service</H3></center>
+          <center><h6>For Testing Purposes Username: jdoe@umd.edu Password: password.</h6></center>
+        </div>
+      </div>
+    <?php } ?>
 
-      <div class="wrapper">
-        <h2>Login</h2>
-        <p>Please fill in your credentials to login.</p>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <div class="form-group <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
-                <label>Email</label>
-                <input type="text" name="email"class="form-control" value="<?php echo $email; ?>">
-                <span class="help-block"><?php echo $email_err; ?></span>
-            </div>
-            <div class="form-group <?php echo (!empty($password_err)) ? 'has-error' : ''; ?>">
-                <label>Password</label>
-                <input type="password" name="password" class="form-control">
-                <span class="help-block"><?php echo $password_err; ?></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="Login">
-            </div>
-            <p>Don't have an account? <a href="PHP/registration.php">Sign up now</a>.</p>
-        </form>
-    </div>
-  </body>
-</html>
+
+
+<?php
+include_once("partials/footers.php");
+?>
