@@ -1,8 +1,8 @@
 <?php
 include_once("../partials/header.php");
 ?>
-  <link rel="stylesheet" href="../styles/agenda_maker_style.css?version=0.6">
-    <script src="../scripts/agenda_maker.js?version=0.4"> </script>
+  <link rel="stylesheet" href="../styles/agenda_maker_style.css?version=0.8">
+    <script src="../scripts/agenda_maker.js?version=0.6"> </script>
       <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 </head>
 
@@ -17,7 +17,7 @@ include_once("../partials/header.php");
         <a class="nav-buttons" href = "../about.html"><i class="fa fa-fw fa-info-circle" aria-hidden="true"></i>About</a>
         <a class="nav-buttons" href = "https://uachieve.umd.edu/"><i class="fa fa-fw fa-star-o" aria-hidden="true"></i>UAchieve</a>
         <a class="nav-buttons" href = ""><i class="fa fa-fw fa-question" aria-hidden="true"></i>Help</a>
-        <a class="nav-buttons" href="../routes/login/student_login.php?action=logout"><i class="fa fa-fw fa-sign-in"></i>Logout</a>
+        <a class="nav-buttons" href="../routes/login/registration.php?action=student_logout"><i class="fa fa-fw fa-sign-in"></i>Logout</a>
      </div>
     <?php }
    else{
@@ -33,13 +33,13 @@ include_once("../partials/header.php");
 </div>
 
 <!-- Class Info Modal -->
-  <div class="modal fade" id="infoModal" role="dialog">
+  <div class="modal" id="infoModal" role="dialog">
     <div class="modal-dialog">
 
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-          <center><h4 class="modal-title"></h4></center>
+          <center><h3 class="modal-title"></h3></center>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         <div class="modal-body">
@@ -71,7 +71,25 @@ include_once("../partials/header.php");
         </div>
         </div>
       </div>
+  </div>
+<!--******************** Message Modal ************************-->
+<div class="modal" id="msgModal" role="dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <center><h3 class="modal-title">Do You Want To Send a Message To Your Advisor?</h3></center>
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
     </div>
+    <div class="modal-body">
+      <div id = "msgDiv">
+        <form id="msgForm">
+          <textarea rows="12" cols="50" name="comment" id = "comment" form="msgForm"></textarea>
+          <br>
+          <input type="submit" onclick = "addMsg(document.getElementById('comment').value)" >
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <!-- <div id = "student_schedule" class = "well well-sm"> -->
@@ -85,20 +103,15 @@ include_once("../partials/header.php");
     </form>
   </div>
   <div class="btn-group" role="group" aria-label="Basic example">
-    <button type="button" onclick="submitClasses()" id = "submit-btn" class="funct-btns">Submit</button>
     <button type="button" onclick="addDataToDB()" id = "save-btn" class="funct-btns">Save</button>
-    <button type="button" onclick="resetDB()" id = "note-btn" class="funct-btns">Leave Note</button>
+    <button type="button" onclick="leaveNote()" id = "note-btn" class="funct-btns">Leave Note</button>
     <button type="button" onclick="resetDB()" id = "reset-all-btn" class="funct-btns">Reset All</button>
+    <button type="button" onclick="submitClasses()" id = "submit-btn" class="funct-btns">Submit</button>
   </div>
 </div>
 <!-- Student 4 year Plan -->
 <div class = "content">
   <div id = "search-div" class = "">
-    <!-- <div id=msg style="position:absolute; width:300px; height:25px;
-    z-index:1; left: 400px; top: 0px;
-    border: 1px none #000000"></div> -->
-
-
     <datalist id="class_results" ></datalist>
 
     <div id="search_result">
@@ -114,14 +127,14 @@ include_once("../partials/header.php");
           <center><h3>Year One</h3></center>
         </div>
         <div class = "fall_semester">
-            <button type="button" id = "reset-one" class="reset-btn">Reset</button>
-            <h4>Semester 1</h4>
+            <button type="button" id = "reset-one" onclick="resetSemester(this)" class="reset-btn">Reset</button>
+            <h3>Fall</h3>
             <h6 class = "credits_title"><em>Credits: <span class = "credits" id = "semester-one-credits">0</span></em></h6>
             <ul id="semester1" class="connectedSortable"></ul>
         </div>
         <div  class = "spring_semester">
-          <button type="button" id = "reset-two" class="reset-btn">Reset</button>
-          <h4>Semester 2</h4>
+          <button type="button" id = "reset-two" onclick="resetSemester(this)" class="reset-btn">Reset</button>
+          <h3>Spring</h3>
           <h6 class = "credits_title"><em>Credits: <span class = "credits" id = "semester-two-credits">0</span></em></h6>
           <ul id = "semester2" class = "connectedSortable"></ul>
         </div>
@@ -132,14 +145,14 @@ include_once("../partials/header.php");
           <center><h3>Year Two</h3></center>
         </div>
         <div  class = "fall_semester">
-          <button type="button" id = "reset-three" class="reset-btn">Reset</button>
-          <h4>Semester 3</h4>
+          <button type="button" id = "reset-three" onclick="resetSemester(this)" class="reset-btn">Reset</button>
+          <h3>Fall</h3>
           <h6 class = "credits_title"><em>Credits: <span class = "credits" id = "semester-three-credits">0</span></em></h6>
           <ul id = "semester3" class = "connectedSortable"></ul>
         </div>
         <div  class = "spring_semester">
-          <button type="button" id = "reset-four" class="reset-btn">Reset</button>
-          <h4>Semester 4</h4>
+          <button type="button" id = "reset-four" onclick="resetSemester(this)" class="reset-btn">Reset</button>
+          <h3>Spring</h3>
           <h6 class = "credits_title"><em>Credits: <span class = "credits" id = "semester-four-credits">0</span></em></h6>
           <ul id = "semester4" class = "connectedSortable"></ul>
         </div>
@@ -150,14 +163,14 @@ include_once("../partials/header.php");
           <center><h3>Year Three</h3></center>
         </div>
         <div  class = "fall_semester">
-          <button type="button" id = "reset-five" class="reset-btn">Reset</button>
-          <h4>Semester 5</h4>
+          <button type="button" id = "reset-five" onclick="resetSemester(this)" class="reset-btn">Reset</button>
+          <h3>Fall</h3>
           <h6 class = "credits_title"><em>Credits: <span class = "credits" id = "semester-five-credits">0</span></em></h6>
           <ul id = "semester5" class = "connectedSortable"></ul>
         </div>
         <div class = "spring_semester">
-          <button type="button" id = "reset-six" class="reset-btn">Reset</button>
-          <h4>Semester 6</h4>
+          <button type="button" id = "reset-six" onclick="resetSemester(this)" class="reset-btn">Reset</button>
+          <h3>Spring</h3>
           <h6 class = "credits_title"><em>Credits: <span class = "credits" id = "semester-six-credits">0</span></em></h6>
           <ul id = "semester6" class = "connectedSortable"></ul>
         </div>
@@ -168,14 +181,14 @@ include_once("../partials/header.php");
         <center><h3>Year Four</h3></center>
       </div>
       <div class = "fall_semester">
-        <button type="button" id = "reset-seven" class="reset-btn">Reset</button>
-        <h4>Semester 7</h4>
+        <button type="button" id = "reset-seven" onclick="resetSemester(this)" class="reset-btn">Reset</button>
+        <h3>Fall</h3>
         <h6 class = "credits_title"><em>Credits: <span class = "credits" id = "semester-seven-credits">0</span></em></h6>
         <ul id = "semester7" class = "connectedSortable"></ul>
       </div>
       <div class = "spring_semester">
-        <button type="button" id = "reset-eight" class="reset-btn">Reset</button>
-        <h4>Total Semester 8</h4>
+        <button type="button" id = "reset-eight" onclick="resetSemester(this)" class="reset-btn">Reset</button>
+        <h3>Spring</h3>
         <h6 class = "credits_title"><em>Credits: <span class = "credits" id = "semester-eight-credits">0</span></em></h6>
         <ul id = "semester8" class = "connectedSortable"></ul>
       </div>
