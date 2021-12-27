@@ -32,7 +32,7 @@ switch($action) {
  	$planBuilder->umd_load_classes();
  break;
  case 'search_classes':
- 	$planBuilder->search_classes();
+ 	$planBuilder->filter_search_classes();
  break;
  default:
  return;
@@ -216,21 +216,38 @@ Class FourYearPlan {
    }
  }
 
- function search_classes(){
+ function filter_search_classes(){
+      $by_name = $_POST['by_name'];
+      $by_sex = $_POST['by_sex'];
+      $by_group = $_POST['by_group'];
+      $by_level = $_POST['by_level'];
 
-   ////  End of data collection from table ///
-  //  if(isset($_POST['search'])){
-  //   $search_val=$_POST['search_term'];
-  //   $search_query = "select * from Course where MATCH(class_name) AGAINST('$search_val' IN BOOLEAN MODE)";
-  //   $search_query_results = mysqli_query($this->conn, $search_query);
-  //   while($line = mysqli_fetch_assoc($search_query_results)){
-  //     echo $line;
-  //   }
-  //   // while($row=mysql_fetch_array($search_query_results)){
-  //   //  echo "<li><span class='title'>".$row['class_abbreviation']."</span><br><span class='desc'>".$row['class_name']."</span></a></li>";
-  //   // }
-  //   exit();
-  // }
+      //Do real escaping here
+
+      $query = "SELECT * FROM donar";
+      $conditions = array();
+
+      if(! empty($by_name)) {
+        $conditions[] = "name='$by_name'";
+      }
+      if(! empty($by_sex)) {
+        $conditions[] = "sex='$by_sex'";
+      }
+      if(! empty($by_group)) {
+        $conditions[] = "blood_group='$by_group'";
+      }
+      if(! empty($by_level)) {
+        $conditions[] = "e_level='$by_level'";
+      }
+
+      $sql = $query;
+      if (count($conditions) > 0) {
+        $sql .= " WHERE " . implode(' AND ', $conditions);
+      }
+
+      $result = mysql_query($sql);
+
+      return $result;
  }
 
 }

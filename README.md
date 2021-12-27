@@ -1,6 +1,6 @@
 # iAdviser
 
-**The Web App is currently live on Google Cloud: [iAdvisor](http://35.243.145.160/).**
+**The Web App is currently live on Google Cloud:.**
 
 ## Problem:
 The Information Science(InfoSci) Department at the University of Maryland College Park started it's undergraduate program in fall 2016. Since it's started, the program has experienced tremendous growth to almost 800 individuals. As a result of the surge in interest, the InfoSci department has been forced to work hard to accommodate the increase in students. One major issue is advising within the department. There are only a handful of advisors to see all of these students and they simply cannot provide the necessary attention for each student.

@@ -47,7 +47,7 @@ div#infoBox {
 }
 .year {
   /* width: 650px; */
-  height: 810px;
+  height: 1010px;
   border-color: black;
   border-style: solid;
 }
@@ -63,10 +63,18 @@ h4, h6 {
 div#search-div {
   float:left;
   width: 250px;
-  height: 810px;
+  height: 1010px;
   border-color: black;
   border-style: solid;
   /* float: left; */
+}
+
+.semester_ul li{
+
+}
+
+.semester_ul {
+
 }
 
 div.fall_semester {
@@ -83,6 +91,25 @@ div.spring_semester {
    float: right;
    width: 300px;
    /* height: 600px; */
+   border-color: black;
+   border-style: solid;
+   padding: 5px;
+   border-width: thin;
+}
+
+div.winter_semester {
+   float: left;
+   width: 300px;
+   border-color: black;
+   border-width: thin;
+   padding: 5px;
+   border-style: solid;
+   clear:both;
+   /* height: 600px; */
+}
+div.summer_semester {
+   float: right;
+   width: 300px;
    border-color: black;
    border-style: solid;
    padding: 5px;
@@ -212,8 +239,8 @@ ul {
   background-color:#e7e7e7;
 }
 .single-class {
-  /* float: left; */
   height: 100px;
+  width: -webkit-fill-available;
 
 }
 .class_name {
@@ -223,21 +250,20 @@ ul {
 /* Nav Bar */
 .topnav {
  overflow: hidden;
- background-color: #0F7097;
+ background-color: #white;
  width: 100%;
 }
 .topnav a {
   float: left;
-  color: #B0BC22;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-  font-size: 20px;
+  font-size: 15px;
 }
-.topnav a:hover {
+/* .topnav a:hover {
   background-color: gray;
   color: black;
-}
+} */
 .topnav-right {
   float: right;
 }
@@ -266,6 +292,23 @@ ul {
     text-align: left;
   }
 }
+.nav-buttons {
+  background-color: #B0BC22;
+  border: none;
+  color: white;
+  padding: 1px 2px;
+  text-align: center;
+  font-size: 15px;
+  opacity: 0.6;
+  transition: 0.3s;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 12%;
+}
+.nav-buttons:hover {
+  opacity: 1
+}
+
 #new-class-list {
   float:right;
 }
@@ -329,7 +372,7 @@ ul {
 
 /* Search Styling   */
 #search_box {
-  width: 300px;
+  width: 250px;
   vertical-align: middle;
   white-space: nowrap;
   position: relative;
@@ -346,11 +389,11 @@ ul {
 }
 
 #search_box input#search_term{
-  width: 300px;
+  width: 250px;
   /* height: 50px; */
   /* background: #0F7097; */
   border: none;
-  font-size: 20pt;
+  font-size: 15pt;
   float: left;
   color: #63717f;
   padding-left: 45px;
@@ -449,4 +492,28 @@ ul {
 
 #msgModal {
   width: 40%;
+}
+
+/* Filter Search */
+#filter_button {
+  background-color: #B0BC22;;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+.active, #filter_button:hover {
+  background-color: #555;
+}
+
+#filter_box {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: #f1f1f1;
 }

@@ -1,5 +1,16 @@
 <?php
 include_once("partials/header.php");
+require '/path/to/sdk/vendor/autoload.php';
+
+use Doctrine\Common\Cache\FilesystemCache;
+use Guzzle\Cache\DoctrineCacheAdapter;
+
+// Create a cache adapter that stores data on the filesystem
+$cacheAdapter = new DoctrineCacheAdapter(new FilesystemCache('/tmp/cache'));
+
+// Provide a credentials.cache to cache credentials to the file system
+$s3Client = Aws\S3\S3Client::factory(array(
+    'credentials.cache' => $cacheAdapter
 ?>
 
     <link rel="stylesheet" href="../styles/index.css?version=1.5">

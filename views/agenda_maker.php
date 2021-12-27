@@ -1,23 +1,31 @@
 <?php
 include_once("../partials/header.php");
 ?>
-  <link rel="stylesheet" href="../styles/agenda_maker_style.css?version=0.8">
-    <script src="../scripts/agenda_maker.js?version=0.6"> </script>
+  <link rel="stylesheet" href="../styles/agenda_maker_style.css?version=0.2">
+    <script src="../scripts/agenda_maker.js?version=0.8"> </script>
       <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 </head>
 
 <body>
   <div class="topnav">
-    <a class="nav-buttons active" href="../index.php">
+    <a class="active" href="../index.php">
       <img src="../img/iAdvisorLogo.png" alt="Logo" style="width:100px;">
     </a>
     <?php
     if(isset($_SESSION['email'])){?>
       <div class="topnav-right">
-        <a class="nav-buttons" href = "../about.html"><i class="fa fa-fw fa-info-circle" aria-hidden="true"></i>About</a>
-        <a class="nav-buttons" href = "https://uachieve.umd.edu/"><i class="fa fa-fw fa-star-o" aria-hidden="true"></i>UAchieve</a>
-        <a class="nav-buttons" href = ""><i class="fa fa-fw fa-question" aria-hidden="true"></i>Help</a>
-        <a class="nav-buttons" href="../routes/login/registration.php?action=student_logout"><i class="fa fa-fw fa-sign-in"></i>Logout</a>
+        <button class="nav-buttons" >
+          <a href = "../about.html"><i class="fa fa-fw fa-info-circle" aria-hidden="true"></i>About</a>
+        </button>
+        <button class="nav-buttons" >
+          <a href = "https://uachieve.umd.edu/"><i class="fa fa-fw fa-star-o" aria-hidden="true"></i>UAchieve</a>
+        </button>
+        <button class="nav-buttons" >
+          <a href = ""><i class="fa fa-fw fa-question" aria-hidden="true"></i>Help</a>
+        </button>
+        <button class="nav-buttons" >
+          <a href="../routes/login/registration.php?action=student_logout"><i class="fa fa-fw fa-sign-in"></i>Logout</a>
+        </button>
      </div>
     <?php }
    else{
@@ -112,10 +120,20 @@ include_once("../partials/header.php");
 <!-- Student 4 year Plan -->
 <div class = "content">
   <div id = "search-div" class = "">
+    <button id= "filter_button" onclick="showFilterBox(this)"><span class="glyphicon glyphicon-filter"></span> Filter</button>
+    <div id = "filter_box">
+      <form action="" method="post">
+        <label>Name:&nbsp;</label><input type="checkbox" name="by_name" />
+        <label>Sex:&nbsp;</label><input type="checkbox" name="by_sex" />
+        <label>Blood Group:&nbsp;</label><input type="checkbox" name="by_group" />
+        <label>Level:&nbsp;</label><input type="checkbox" name="by_level" />
+        <br>
+        <input class="button" type="submit" name="submit" value="Search" />
+      </form>
+    </div>
     <datalist id="class_results" ></datalist>
-
     <div id="search_result">
-      <ul id = "search_result_list"></ul>
+      <ul id = "search_result_list" class = "connectedSortable semester_ul"></ul>
     </div>
 
     <div class='t1' id='navigation'></div>
@@ -130,13 +148,25 @@ include_once("../partials/header.php");
             <button type="button" id = "reset-one" onclick="resetSemester(this)" class="reset-btn">Reset</button>
             <h3>Fall</h3>
             <h6 class = "credits_title"><em>Credits: <span class = "credits" id = "semester-one-credits">0</span></em></h6>
-            <ul id="semester1" class="connectedSortable"></ul>
+            <ul id="semester1" class="connectedSortable semester_ul"></ul>
         </div>
         <div  class = "spring_semester">
           <button type="button" id = "reset-two" onclick="resetSemester(this)" class="reset-btn">Reset</button>
           <h3>Spring</h3>
           <h6 class = "credits_title"><em>Credits: <span class = "credits" id = "semester-two-credits">0</span></em></h6>
-          <ul id = "semester2" class = "connectedSortable"></ul>
+          <ul id = "semester2" class = "connectedSortable semester_ul"></ul>
+        </div>
+        <div class = "winter_semester">
+            <button type="button" id = "reset-one-a" onclick="resetSemester(this)" class="reset-btn">Reset</button>
+            <h3>Winter</h3>
+            <h6 class = "credits_title"><em>Credits: <span class = "credits">0</span></em></h6>
+            <ul id="winter_semester1" class="connectedSortable semester_ul"></ul>
+        </div>
+        <div  class = "summer_semester">
+          <button type="button" id = "reset-two-b" onclick="resetSemester(this)" class="reset-btn">Reset</button>
+          <h3>Summer</h3>
+          <h6 class = "credits_title"><em>Credits: <span class = "credits">0</span></em></h6>
+          <ul id = "summer_semester2" class = "connectedSortable semester_ul"></ul>
         </div>
     </div>
 
@@ -148,13 +178,25 @@ include_once("../partials/header.php");
           <button type="button" id = "reset-three" onclick="resetSemester(this)" class="reset-btn">Reset</button>
           <h3>Fall</h3>
           <h6 class = "credits_title"><em>Credits: <span class = "credits" id = "semester-three-credits">0</span></em></h6>
-          <ul id = "semester3" class = "connectedSortable"></ul>
+          <ul id = "semester3" class = "connectedSortable semester_ul"></ul>
         </div>
         <div  class = "spring_semester">
           <button type="button" id = "reset-four" onclick="resetSemester(this)" class="reset-btn">Reset</button>
           <h3>Spring</h3>
           <h6 class = "credits_title"><em>Credits: <span class = "credits" id = "semester-four-credits">0</span></em></h6>
-          <ul id = "semester4" class = "connectedSortable"></ul>
+          <ul id = "semester4" class = "connectedSortable semester_ul"></ul>
+        </div>
+        <div class = "winter_semester">
+            <button type="button" id = "reset-one-a" onclick="resetSemester(this)" class="reset-btn">Reset</button>
+            <h3>Winter</h3>
+            <h6 class = "credits_title"><em>Credits: <span class = "credits">0</span></em></h6>
+            <ul id="winter_semester3" class="connectedSortable semester_ul"></ul>
+        </div>
+        <div class = "summer_semester">
+          <button type="button" id = "reset-two-b" onclick="resetSemester(this)" class="reset-btn">Reset</button>
+          <h3>Summer</h3>
+          <h6 class = "credits_title"><em>Credits: <span class = "credits">0</span></em></h6>
+          <ul id = "summer_semester4" class = "connectedSortable semester_ul"></ul>
         </div>
     </div>
 
@@ -166,13 +208,25 @@ include_once("../partials/header.php");
           <button type="button" id = "reset-five" onclick="resetSemester(this)" class="reset-btn">Reset</button>
           <h3>Fall</h3>
           <h6 class = "credits_title"><em>Credits: <span class = "credits" id = "semester-five-credits">0</span></em></h6>
-          <ul id = "semester5" class = "connectedSortable"></ul>
+          <ul id = "semester5" class = "connectedSortable semester_ul"></ul>
         </div>
         <div class = "spring_semester">
           <button type="button" id = "reset-six" onclick="resetSemester(this)" class="reset-btn">Reset</button>
           <h3>Spring</h3>
           <h6 class = "credits_title"><em>Credits: <span class = "credits" id = "semester-six-credits">0</span></em></h6>
-          <ul id = "semester6" class = "connectedSortable"></ul>
+          <ul id = "semester6" class = "connectedSortable semester_ul"></ul>
+        </div>
+        <div class = "winter_semester">
+            <button type="button" id = "reset-one-a" onclick="resetSemester(this)" class="reset-btn">Reset</button>
+            <h3>Winter</h3>
+            <h6 class = "credits_title"><em>Credits: <span class = "credits">0</span></em></h6>
+            <ul id="winter_semester5" class="connectedSortable semester_ul"></ul>
+        </div>
+        <div  class = "summer_semester">
+          <button type="button" id = "reset-two-b" onclick="resetSemester(this)" class="reset-btn">Reset</button>
+          <h3>Summer</h3>
+          <h6 class = "credits_title"><em>Credits: <span class = "credits">0</span></em></h6>
+          <ul id = "summer_semester6" class = "connectedSortable semester_ul"></ul>
         </div>
     </div>
 
@@ -184,13 +238,25 @@ include_once("../partials/header.php");
         <button type="button" id = "reset-seven" onclick="resetSemester(this)" class="reset-btn">Reset</button>
         <h3>Fall</h3>
         <h6 class = "credits_title"><em>Credits: <span class = "credits" id = "semester-seven-credits">0</span></em></h6>
-        <ul id = "semester7" class = "connectedSortable"></ul>
+        <ul id = "semester7" class = "connectedSortable semester_ul"></ul>
       </div>
       <div class = "spring_semester">
         <button type="button" id = "reset-eight" onclick="resetSemester(this)" class="reset-btn">Reset</button>
         <h3>Spring</h3>
         <h6 class = "credits_title"><em>Credits: <span class = "credits" id = "semester-eight-credits">0</span></em></h6>
-        <ul id = "semester8" class = "connectedSortable"></ul>
+        <ul id = "semester8" class = "connectedSortable semester_ul"></ul>
+      </div>
+      <div class = "winter_semester">
+          <button type="button" id = "reset-one-a" onclick="resetSemester(this)" class="reset-btn">Reset</button>
+          <h3>Winter</h3>
+          <h6 class = "credits_title"><em>Credits: <span class = "credits">0</span></em></h6>
+          <ul id="winter_semester7" class="connectedSortable semester_ul"></ul>
+      </div>
+      <div  class = "summer_semester">
+        <button type="button" id = "reset-two-b" onclick="resetSemester(this)" class="reset-btn">Reset</button>
+        <h3>Summer</h3>
+        <h6 class = "credits_title"><em>Credits: <span class = "credits">0</span></em></h6>
+        <ul id = "summer_semester8" class = "connectedSortable semester_ul"></ul>
       </div>
     </div>
    </div>

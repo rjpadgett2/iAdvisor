@@ -18,31 +18,45 @@ let saved_classes;
 //===================================================
 //============Information Div Functionality===========
 //===================================================
+
+// Filter Box Functionlaity
+  function showFilterBox(item){
+    // item.toggle('active');
+    let content = item.nextElementSibling;
+    if (content.style.maxHeight){
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    }
+  }
+
+
   function countCredits(ul, origin){
     let newCount = 0;
     let oldCount = 0;
-    let old_container = origin.parentNode.childNodes[5].getElementsByTagName("span")[0];
     let new_container = ul.parentNode.childNodes[5].getElementsByTagName("span")[0];
     for(let i = 0; i < ul.childNodes.length; i++){
       let class_li = ul.childNodes[i].getAttribute("data-credits");
       newCount += parseInt(class_li);
     }
-    for(let i = 0; i < origin.childNodes.length; i++){
-      let class_li = origin.childNodes[i].getAttribute("data-credits");
-      oldCount += parseInt(class_li);
-    }
-    old_container.innerHTML = oldCount;
     new_container.innerHTML = newCount;
     if(newCount > 18){
       new_container.style.color = "red";
     }else {
       new_container.style.color = "#0000FF";
     }
-
-    if (oldCount > 18){
-      old_container.style.color = "red";
-    }else{
-      old_container.style.color = "#0000FF";
+    if(origin.parentNode.childNodes[5].getElementsByTagName("span")[0] != null){
+      let old_container = origin.parentNode.childNodes[5].getElementsByTagName("span")[0];
+      for(let i = 0; i < origin.childNodes.length; i++){
+        let class_li = origin.childNodes[i].getAttribute("data-credits");
+        oldCount += parseInt(class_li);
+      }
+      old_container.innerHTML = oldCount;
+      if (oldCount > 18){
+        old_container.style.color = "red";
+      }else{
+        old_container.style.color = "#0000FF";
+      }
     }
   }
 
@@ -188,18 +202,22 @@ let saved_classes;
             document.getElementById(ui.item.attr('id')).setAttribute("data-semester",  nextSemester);
           }else {
             output = JSON.parse(data);
-            for(let i = 0; i < output.length; i++){
-              //iterates through UL and checks li ID's
-              $(receiver).find('li').each(function(j){
-                //planner/prits type of values being compared
-                  if (parseInt($(this).attr("id")) == parseInt(output[i]["pre_req_of"])) {
-                    // console.log("yes:" + $(this).attr("id"));
-                    // changes color of Li of dragged element to Red to indicate pre_req error
-                    document.getElementById(ui.item.attr('id')).className = "list-group-item single-class exceptions";
-                    document.getElementById(ui.item.attr('id')).setAttribute("data-semester",  nextSemester);
-                    document.getElementById(ui.item.attr('id')).setAttribute("exception","1");
-                  }
-              });
+            if(output.length != null){
+              for(let i = 0; i < output.length; i++){
+                //iterates through UL and checks li ID's
+                $(receiver).find('li').each(function(j){
+                  //planner/prits type of values being compared
+                    if (parseInt($(this).attr("id")) == parseInt(output[i]["pre_req_of"])) {
+                      // console.log("yes:" + $(this).attr("id"));
+                      // changes color of Li of dragged element to Red to indicate pre_req error
+                      document.getElementById(ui.item.attr('id')).className = "list-group-item single-class exceptions";
+                      document.getElementById(ui.item.attr('id')).setAttribute("data-semester",  nextSemester);
+                      document.getElementById(ui.item.attr('id')).setAttribute("exception","1");
+                    }
+                });
+              }
+            }else {
+
             }
           }
         },
@@ -433,18 +451,18 @@ let saved_classes;
           + '<span class = "class_name">'+myarray.data[i].class_abbreviation + " " + myarray.data[i].class_name + '</span> <em><span class = "credit_num">Credits: ' + myarray.data[i].credits + '</span></em></li>');
 
         }
-        let endrecord=myarray.value.endrecord
-        document.getElementById("navigation").innerHTML= "<table width=700><tr><td width=350><input type=button id=\'back\' value=Prev onClick=\"ajaxFunction('bk'); return false\"></td><td width=350 align=right><input type=button value=Next id=\"fwd\" onClick=\"ajaxFunction(\'fw\');  return false\"></td></tr></tr> </table>";
-        myForm.st.value=endrecord;
-        if(myarray.value.end =="yes"){
-          document.getElementById("fwd").style.display='inline';
-        }else{
-          document.getElementById("fwd").style.display='none';}
-        if(myarray.value.startrecord =="yes"){
-          document.getElementById("back").style.display='inline';
-        }else{
-          document.getElementById("back").style.display='none';
-        }
+        // let endrecord=myarray.value.endrecord
+        // document.getElementById("navigation").innerHTML= "<table width=700><tr><td width=350><input type=button id=\'back\' value=Prev onClick=\"ajaxFunction('bk'); return false\"></td><td width=350 align=right><input type=button value=Next id=\"fwd\" onClick=\"ajaxFunction(\'fw\');  return false\"></td></tr></tr> </table>";
+        // myForm.st.value=endrecord;
+        // if(myarray.value.end =="yes"){
+        //   document.getElementById("fwd").style.display='inline';
+        // }else{
+        //   document.getElementById("fwd").style.display='none';}
+        // if(myarray.value.startrecord =="yes"){
+        //   document.getElementById("back").style.display='inline';
+        // }else{
+        //   document.getElementById("back").style.display='none';
+        // }
       }
     }
 
@@ -633,7 +651,7 @@ let saved_classes;
 $.when(load_classes(), pre_req_classes(), load_saved_classes()).done(function() {
   $(document).ready(function(){
     $( function() {
-     $( "#semester1, #semester2, #semester3, #semester4, #semester5, #semester6, #semester7, #semester8, #search_result_list").sortable({
+     $( ".semester_ul").sortable({
        connectWith: ".connectedSortable"
      }).disableSelection();
     });
